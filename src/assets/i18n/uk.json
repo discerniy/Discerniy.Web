@@ -1,0 +1,160 @@
+{
+    "navigation": {
+        "theme": {
+            "light": "Світла",
+            "dark": "Темна",
+            "auto": "Авто"
+        },
+        "settings": "Налаштування",
+        "logout": "Вихід",
+        "users":{
+            "title": "Користувачі",
+            "list": "Список",
+            "add": "Додати"
+        },
+        "groups":{
+            "title": "Групи",
+            "my": "Мої групи",
+            "list": "Список",
+            "add": "Додати"
+        }
+    },
+    "login": {
+        "title": "Вхід",
+        "email": "Електронна пошта",
+        "password": "Пароль",
+        "login": "Увійти",
+        "error": "Невірне ім'я користувача або пароль",
+        "forgot": "Забули пароль?"
+    },
+    "table":{
+        "search": "Пошук",
+        "actions": "Дії",
+        "view": "Переглянути",
+        "loadMore": "Завантажити ще..."
+    },
+    "models":{
+        "client":{
+            "id": "ID",
+            "description": "Опис",
+            "createdAt": "Створено",
+            "lastOnline": "Останній раз онлайн",
+            "location": "Місцезнаходження",
+            "type": "Тип",
+            "status": "Статус",
+            "scanRadius": "Радіус сканування",
+            "sessions": "Сесії",
+            "groups": "Групи",
+            "accessLevel": "Рівень доступу",
+            "permissions": "Дозволи"
+        },
+        "session":{
+            "id": "ID",
+            "lastUpdated": "Останнє оновлення",
+            "lastAccessed": "Останній доступ",
+            "expiresAt": "Закінчується"
+        },
+        "clientTypes": {
+            "user": "Користувач",
+            "robot": "Робот"
+        },
+        "clientStatuses": {
+            "any": "Будь-який",
+            "inactive": "Неактивний",
+            "active": "Активний",
+            "limited": "Обмежений",
+            "banned": "Заблокований"
+        },
+        "user":{
+            "firstName": "Ім'я",
+            "lastName": "Прізвище",
+            "email": "Електронна пошта",
+            "taxPayerId": "РНОКПП (ІПН)",
+            "nickname": "Позивний"
+        },
+        "permission":{
+            "groups":{
+                "name": "Групи",
+                "canCreate": "Може створювати",
+                "canDelete": "Може видаляти",
+                "canRead": "Може читати",
+                "canUpdate": "Може оновлювати"
+            }, 
+            "robots":{
+                "name": "Роботи",
+                "canCreate": "Може створювати",
+                "canDelete": "Може видаляти",
+                "canRead": "Може читати",
+                "canUpdate": "Може оновлювати",
+                "canUpdateAccessLevel": "Може оновлювати рівень доступу",
+                "canUpdateScanRadius": "Може оновлювати радіус сканування",
+                "canUpdateStatus": "Може оновлювати статус"
+            },
+            "users":{
+                "name": "Користувачі",
+                "canCreate": "Може створювати",
+                "canDelete": "Може видаляти",
+                "canRead": "Може читати",
+                "canUpdate": "Може оновлювати",
+                "canUpdateAccessLevel": "Може оновлювати рівень доступу",
+                "canUpdateBaseInformation": "Може оновлювати основну інформацію",
+                "canUpdateOtherUsersPassword": "Може оновлювати паролі інших користувачів",
+                "canUpdatePermissions": "Може оновлювати дозволи",
+                "canUpdateScanRadius": "Може оновлювати радіус сканування",
+                "canUpdateSelf": "Може оновлювати власний профіль",
+                "canUpdateStatus": "Може оновлювати статус"
+            }
+        }
+    },
+    "admin":{
+        "user":{
+            "scanRadius":{
+                "description": "Радіус сканування в метрах"
+            },
+            "accessLevel":{
+                "description": "Від 1 до 999. 1 - найнижчий рівень доступу, 999 - найвищий"
+            }
+        }
+    },
+    "editUser": {
+        "basicInfo": "Основна інформація",
+        "actions": {
+            "title": "Дії",
+            "resetPassword": "Скинути пароль"
+        }
+    },
+    "activationPage":{
+        "title": "Активація облікового запису",
+        "welcome": "Ласкаво просимо,",
+        "newPassword": "Новий пароль",
+        "confirmPassword": "Підтвердити пароль",
+        "activate": "Активувати",
+        "error": {
+            "passwordsDoNotMatch": "Паролі не співпадають",
+            "passwordTooShort": "Пароль занадто короткий (мінімум 8 символів)",
+            "passwordTooLong": "Пароль занадто довгий (максимум 64 символів)",
+            "passwordNoNumber": "Пароль повинен містити принаймні одну цифру",
+            "passwordNoLetter": "Пароль повинен містити принаймні одну літеру",
+            "passwordNoSpecial": "Пароль повинен містити принаймні один спеціальний символ",
+            "passwordNoUppercase": "Пароль повинен містити принаймні одну велику літеру",
+            "passwordNoLowercase": "Пароль повинен містити принаймні одну маленьку літеру",
+            "passwordWhitespace": "Пароль не повинен містити пробіли"
+        }
+    },
+    "buttons":{
+        "save": "Зберегти",
+        "cancel": "Скасувати",
+        "create": "Створити",
+        "delete": "Видалити",
+        "edit": "Редагувати",
+        "view": "Переглянути",
+        "add": "Додати",
+        "back": "Назад",
+        "login": "Авторизуватися",
+        "logout": "Вийти",
+        "activate": "Активувати",
+        "reset": "Скинути",
+        "send": "Надіслати",
+        "close": "Закрити"
+    }
+}

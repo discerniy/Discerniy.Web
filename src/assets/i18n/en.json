@@ -1,0 +1,160 @@
+{
+    "navigation": {
+        "theme": {
+            "light": "Light",
+            "dark": "Dark",
+            "auto": "Auto"
+        },
+        "settings": "Settings",
+        "logout": "Logout",
+        "users":{
+            "title": "Users",
+            "list": "List",
+            "add": "Add"
+        },
+        "groups":{
+            "title": "Groups",
+            "my": "My Groups",
+            "list": "List",
+            "add": "Add"
+        }
+    },
+    "login": {
+        "title": "Login",
+        "email": "Email",
+        "password": "Password",
+        "login": "Login",
+        "error": "Invalid username or password",
+        "forgot": "Forgot password?"
+    },
+    "table":{
+        "search": "Search",
+        "actions": "Actions",
+        "view": "View",
+        "loadMore": "Load More..."
+    },
+    "models":{
+        "client":{
+            "id": "ID",
+            "description": "Description",
+            "createdAt": "Created At",
+            "lastOnline": "Last Online",
+            "location": "Location",
+            "type": "Type",
+            "status": "Status",
+            "scanRadius": "Scan Radius",
+            "sessions": "Sessions",
+            "groups": "Groups",
+            "accessLevel": "Access Level",
+            "permissions": "Permissions"
+        },
+        "session":{
+            "id": "ID",
+            "lastUpdated": "Last Updated",
+            "lastAccessed": "Last Accessed",
+            "expiresAt": "Expires At"
+        },
+        "clientTypes": {
+            "user": "User",
+            "robot": "Robot"
+        },
+        "clientStatuses": {
+            "any": "Any",
+            "inactive": "Inactive",
+            "active": "Active",
+            "limited": "Limited",
+            "banned": "Banned"
+        },
+        "user":{
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "email": "Email",
+            "taxPayerId": "Tax Payer ID",
+            "nickname": "Nickname"
+        },
+        "permission":{
+            "groups":{
+                "name": "Groups",
+                "canCreate": "Can Create",
+                "canDelete": "Can Delete",
+                "canRead": "Can Read",
+                "canUpdate": "Can Update"
+            }, 
+            "robots":{
+                "name": "Robots",
+                "canCreate": "Can Create",
+                "canDelete": "Can Delete",
+                "canRead": "Can Read",
+                "canUpdate": "Can Update",
+                "canUpdateAccessLevel": "Can Update Access Level",
+                "canUpdateScanRadius": "Can Update Scan Radius",
+                "canUpdateStatus": "Can Update Status"
+            },
+            "users":{
+                "name": "Users",
+                "canCreate": "Can Create",
+                "canDelete": "Can Delete",
+                "canRead": "Can Read",
+                "canUpdate": "Can Update",
+                "canUpdateAccessLevel": "Can Update Access Level",
+                "canUpdateBaseInformation": "Can Update Base Information",
+                "canUpdateOtherUsersPassword": "Can Update Other Users Password",
+                "canUpdatePermissions": "Can Update Permissions",
+                "canUpdateScanRadius": "Can Update Scan Radius",
+                "canUpdateSelf": "Can Update Self",
+                "canUpdateStatus": "Can Update Status"
+            }
+        }
+    },
+    "admin":{
+        "user":{
+            "scanRadius":{
+                "description": "Scan Radius in meters"
+            },
+            "accessLevel":{
+                "description": "From 1 to 999. 1 is the lowest access level, 999 is the highest"
+            }
+        }
+    },
+    "editUser": {
+        "basicInfo": "Basic Info",
+        "actions": {
+            "title": "Actions",
+            "resetPassword": "Reset Password"
+        }
+    },
+    "activationPage":{
+        "title": "Activate your account",
+        "welcome": "Welcome,",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm Password",
+        "activate": "Activate",
+        "error": {
+            "passwordsDoNotMatch": "Passwords do not match",
+            "passwordTooShort": "Password is too short (minimum 8 characters)",
+            "passwordTooLong": "Password is too long (maximum 64 characters)",
+            "passwordNoNumber": "Password must contain at least one number",
+            "passwordNoLetter": "Password must contain at least one letter",
+            "passwordNoSpecial": "Password must contain at least one special character",
+            "passwordNoUppercase": "Password must contain at least one uppercase letter",
+            "passwordNoLowercase": "Password must contain at least one lowercase letter",
+            "passwordWhitespace": "Password cannot contain whitespace"
+        }
+    },
+    "buttons":{
+        "save": "Save",
+        "cancel": "Cancel",
+        "create": "Create",
+        "delete": "Delete",
+        "edit": "Edit",
+        "view": "View",
+        "add": "Add",
+        "back": "Back",
+        "login": "Login",
+        "logout": "Logout",
+        "activate": "Activate",
+        "reset": "Reset",
+        "send": "Send",
+        "close": "Close"
+    }
+}
