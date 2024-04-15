@@ -68,9 +68,9 @@
                     <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown"
                         href="#">{{'navigation.groups.title' | translate}}</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">{{'navigation.groups.my' | translate}}</a>
-                        <a class="dropdown-item" href="#" *ngIf="user.permissions.groups.canRead">{{'navigation.groups.list' | translate}}</a>
-                        <a class="dropdown-item" href="#" *ngIf="user.permissions.groups.canCreate">{{'navigation.groups.add' | translate}}</a>
+                        <a class="dropdown-item" [routerLink]="['/home/group/list/my']">{{'navigation.groups.my' | translate}}</a>
+                        <a class="dropdown-item" [routerLink]="['/home/group/list']" *ngIf="user.permissions.groups.canRead">{{'navigation.groups.list' | translate}}</a>
+                        <a class="dropdown-item" [routerLink]="['/home/group/new']" *ngIf="user.permissions.groups.canCreate">{{'navigation.groups.add' | translate}}</a>
                     </div>
                 </li>
             </ul>

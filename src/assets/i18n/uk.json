@@ -29,6 +29,7 @@
     },
     "table":{
         "search": "Пошук",
+        "reset": "Скинути",
         "actions": "Дії",
         "view": "Переглянути",
         "loadMore": "Завантажити ще..."
@@ -55,6 +56,7 @@
             "expiresAt": "Закінчується"
         },
         "clientTypes": {
+            "any": "Будь-який",
             "user": "Користувач",
             "robot": "Робот"
         },
@@ -95,15 +97,23 @@
                 "canCreate": "Може створювати",
                 "canDelete": "Може видаляти",
                 "canRead": "Може читати",
+                "canResetPassword": "Може скидати пароль",
                 "canUpdate": "Може оновлювати",
                 "canUpdateAccessLevel": "Може оновлювати рівень доступу",
                 "canUpdateBaseInformation": "Може оновлювати основну інформацію",
-                "canUpdateOtherUsersPassword": "Може оновлювати паролі інших користувачів",
                 "canUpdatePermissions": "Може оновлювати дозволи",
                 "canUpdateScanRadius": "Може оновлювати радіус сканування",
-                "canUpdateSelf": "Може оновлювати власний профіль",
+                "canUpdateSelfEmail": "Може оновлювати власну електронну пошту",
                 "canUpdateStatus": "Може оновлювати статус"
             }
+        },
+        "group":{
+            "ID": "ID",
+            "name": "Назва",
+            "description": "Опис",
+            "accessLevel": "Рівень доступу",
+            "createdAt": "Створено",
+            "members": "Учасники"
         }
     },
     "admin":{
@@ -140,6 +150,17 @@
             "passwordNoLowercase": "Пароль повинен містити принаймні одну маленьку літеру",
             "passwordWhitespace": "Пароль не повинен містити пробіли"
         }
+    },
+    "viewGroup": {
+        "members": {
+            "list": "Список учасників"
+        }
+    },
+    "userList":{
+        "confirmSelection": "Підтвердити вибір"
+    },
+    "groupMemberList":{
+        "add": "Додати учасника"
     },
     "buttons":{
         "save": "Зберегти",

@@ -1,9 +1,7 @@
 .filter > div{
     margin-top: 5px;
 }
-.actions > button{
-    margin-right: 5px;
-}
-tbody > tr{
-    cursor: pointer;
+
+button{
+    margin: 5px;
 }

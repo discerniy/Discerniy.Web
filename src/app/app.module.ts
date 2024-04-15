@@ -17,6 +17,9 @@ import { PermissionGuard } from './permission.guard';
 import { UserAdministrationComponent } from './components/admin/users/user-administration/user-administration.component';
 import { NgxTranslateModule } from './translate.module';
 import { ActivationPageComponent } from './components/activation-page/activation-page.component';
+import { ViewGroupComponent } from './components/group/view-group/view-group.component';
+import { GroupListComponent } from './components/group/group-list/group-list.component';
+import { GroupMemberListComponent } from './components/group/group-member-list/group-member-list.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { ActivationPageComponent } from './components/activation-page/activation
     UserSettingsComponent,
     UserListAdministrationComponent,
     UserAdministrationComponent,
-    ActivationPageComponent
+    ActivationPageComponent,
+    ViewGroupComponent,
+    GroupListComponent,
+    GroupMemberListComponent
   ],
   imports: [
     BrowserModule,

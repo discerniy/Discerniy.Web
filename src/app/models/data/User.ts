@@ -10,7 +10,7 @@ export class User extends Client {
     password: string = '';
     needPasswordChange: boolean = true;
 
-    static fromResponse(response: UserResponseDetailed): User {
+    static fromResponse(response: UserResponseDetailed | UserResponse): User {
         let user = new User();
         user.id = response.id;
         user.firstName = response.firstName;
@@ -22,11 +22,13 @@ export class User extends Client {
         user.type = response.type;
         user.permissions = response.permissions;
         user.status = response.status;
-        user.groups = response.groups;
-        user.lastOnline = response.lastOnline;
-        user.accessLevel = response.accessLevel;
-        user.scanRadius = response.scanRadius;
-        user.description = response.description;
+        let detailedResponse = response as UserResponseDetailed;
+        user.groups = detailedResponse.groups || [];
+        user.lastOnline = detailedResponse.lastOnline || undefined;
+        user.accessLevel = detailedResponse.accessLevel || 0;
+        user.scanRadius = detailedResponse.scanRadius || 0;
+        user.description = detailedResponse.description || '';
+
         return user;
     }
 }

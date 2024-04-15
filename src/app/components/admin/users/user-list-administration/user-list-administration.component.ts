@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SearchFilter, TableColumn, TableRecord } from '../../../table/table.component';
-import { Router } from '@angular/router';
+import { SearchFilter, TableColumn, TableRecord, TableRecordAction } from '../../../table/table.component';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserApiService } from 'src/app/services/user-api.service';
 import { ClientStatus } from 'src/app/models/data/Client';
 
@@ -10,6 +10,16 @@ import { ClientStatus } from 'src/app/models/data/Client';
   styleUrls: ['./user-list-administration.component.css']
 })
 export class UserListAdministrationComponent implements OnInit {
+  public selectMode = {
+    enabled: false,
+    selected: [] as string[],
+    deleted: [] as string[],
+    defaultSelected: [] as string[],
+    multiple: false
+  };
+
+  public returnTo: string = '';
+
   public page: number = 1;
   public limit: number = 10;
   public columns: TableColumn[] = [
@@ -18,6 +28,7 @@ export class UserListAdministrationComponent implements OnInit {
     { name: 'models.user.nickname', type: 'string' },
     { name: 'models.user.email', type: 'string' },
     { name: 'models.user.taxPayerId', type: 'string' },
+    { name: 'models.client.accessLevel', type: 'number' },
     { name: 'models.client.status', type: 'string', translate: true }
   ];
 
@@ -26,6 +37,7 @@ export class UserListAdministrationComponent implements OnInit {
     { column: 'models.user.lastName', type: 'string', value: '' },
     { column: 'models.user.email', type: 'string', value: '' },
     { column: 'models.user.taxPayerId', type: 'string', value: '' },
+    { column: 'models.client.accessLevel', type: 'number', value: 0 },
     {
       column: 'models.client.status', type: 'select', value: -1, selectOptions: [
         { value: -1, label: 'models.clientStatuses.any', selected: true },
@@ -37,9 +49,39 @@ export class UserListAdministrationComponent implements OnInit {
     }
   ];
 
+  public tableActions: TableRecordAction[] = [
+    {
+      name: 'table.view',
+      style: 'primary',
+      type: 'button',
+      event: this.onViewInfo.bind(this)
+    }
+  ];
+
   public data: TableRecord[] = [];
 
-  constructor(private router: Router, private userApi: UserApiService) { }
+  constructor(private router: Router, private userApi: UserApiService, private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.queryParams.subscribe(param => {
+      this.selectMode.enabled = param['selectMode'] == 'true';
+      this.selectMode.multiple = param['multiple'] == 'true';
+      this.returnTo = param['returnTo'] || '';
+      if (this.selectMode.enabled) {
+        this.tableActions = [];
+        this.tableActions.push({
+          name: 'table.select',
+          style: 'primary',
+          type: 'checkbox',
+          event: this.onSelect.bind(this)
+        });
+      }
+    });
+    let state = this.router.getCurrentNavigation()?.extras.state;
+    let selectedUsers = state?.['selected'] as string[];
+    if (selectedUsers) {
+      this.selectMode.defaultSelected = selectedUsers;
+    }
+  }
+
   ngOnInit(): void {
     this.load();
   }
@@ -49,8 +91,24 @@ export class UserListAdministrationComponent implements OnInit {
   }
 
   public onSearch(filters: SearchFilter[]) {
-    console.log(this.searchFilters);
     this.load();
+  }
+
+  public onSelect(id: string, event: any) {
+    if (event.target.checked) {
+      if (this.selectMode.deleted.includes(id)) {
+        this.selectMode.defaultSelected.push(id);
+        this.selectMode.deleted = this.selectMode.deleted.filter(s => s != id);
+      } else {
+        this.selectMode.selected.push(id);
+      }
+    } else {
+      if (this.selectMode.defaultSelected.includes(id)) {
+        this.selectMode.deleted.push(id);
+        this.selectMode.defaultSelected = this.selectMode.defaultSelected.filter(s => s != id);
+      }
+      this.selectMode.selected = this.selectMode.selected.filter(s => s != id);
+    }
   }
 
   public load() {
@@ -65,16 +123,31 @@ export class UserListAdministrationComponent implements OnInit {
       lastName: this.searchFilters.find(f => f.column == 'models.user.lastName')?.value as string,
       email: this.searchFilters.find(f => f.column == 'models.user.email')?.value as string,
       taxPayerId: this.searchFilters.find(f => f.column == 'models.user.taxPayerId')?.value as string,
+      accessLevel: this.searchFilters.find(f => f.column == 'models.client.accessLevel')?.value as number,
       status: status
     };
+
     this.userApi.getUsers(query).then(users => {
       this.data = users.items.map(user => {
         let status = 'models.clientStatuses.' + ClientStatus[user.status].toLowerCase();
         return {
           id: user.id,
-          values: [user.firstName, user.lastName, user.nickname, user.email, user.taxPayerId, status]
+          values: [user.firstName, user.lastName, user.nickname, user.email, user.taxPayerId, user.accessLevel, status],
+          data: {
+            'table.select': {
+              checked: this.selectMode.selected.includes(user.id) || this.selectMode.defaultSelected.includes(user.id)
+            }
+          }
         };
       });
     });
+  }
+
+  public cancel() {
+    this.router.navigate([this.returnTo]);
+  }
+
+  public confirm() {
+    this.router.navigate([this.returnTo], { state: { selected: this.selectMode.selected, deleted: this.selectMode.deleted } });
   }
 }

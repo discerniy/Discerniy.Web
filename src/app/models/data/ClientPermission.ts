@@ -6,7 +6,7 @@ export class ClientPermissions {
 
 export class UsersInteractionPermissions{
     public canDelete: boolean = false;
-    public canUpdateSelf: boolean = false;
+    public canUpdateSelfEmail: boolean = false;
     public canUpdateBaseInformation: boolean = false;
     public canResetPassword: boolean = false;
     public canUpdateStatus: boolean = false;

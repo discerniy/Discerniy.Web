@@ -29,6 +29,7 @@
     },
     "table":{
         "search": "Search",
+        "reset": "Reset",
         "actions": "Actions",
         "view": "View",
         "loadMore": "Load More..."
@@ -55,6 +56,7 @@
             "expiresAt": "Expires At"
         },
         "clientTypes": {
+            "any": "Any",
             "user": "User",
             "robot": "Robot"
         },
@@ -95,15 +97,24 @@
                 "canCreate": "Can Create",
                 "canDelete": "Can Delete",
                 "canRead": "Can Read",
+                "canResetPassword": "Can Reset Password",
                 "canUpdate": "Can Update",
                 "canUpdateAccessLevel": "Can Update Access Level",
                 "canUpdateBaseInformation": "Can Update Base Information",
                 "canUpdateOtherUsersPassword": "Can Update Other Users Password",
                 "canUpdatePermissions": "Can Update Permissions",
                 "canUpdateScanRadius": "Can Update Scan Radius",
-                "canUpdateSelf": "Can Update Self",
+                "canUpdateSelfEmail": "Can Update Self Email",
                 "canUpdateStatus": "Can Update Status"
             }
+        },
+        "group":{
+            "ID": "ID",
+            "name": "Name",
+            "description": "Description",
+            "accessLevel": "Access Level",
+            "createdAt": "Created At",
+            "members": "Members"
         }
     },
     "admin":{
@@ -140,6 +151,17 @@
             "passwordNoLowercase": "Password must contain at least one lowercase letter",
             "passwordWhitespace": "Password cannot contain whitespace"
         }
+    },
+    "viewGroup": {
+        "members": {
+            "list": "Members"
+        }
+    },
+    "userList":{
+        "confirmSelection": "Confirm Selection"
+    },
+    "groupMemberList":{
+        "add": "Add Member"
     },
     "buttons":{
         "save": "Save",

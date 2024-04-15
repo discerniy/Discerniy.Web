@@ -13,7 +13,16 @@ import { UserResponse, UserResponseDetailed } from 'src/app/models/responses/use
 export class UserAdministrationComponent {
   public displayMode: DisplayMode = 'VIEW';
   public buttonLabel: string = 'buttons.save';
+  public returnTo: string = '/home/admin/users';
   public userModel: User = new User();
+
+  public get isEditMode(): boolean {
+    return this.displayMode === 'EDIT' && !this.isSelfUser;
+  }
+
+  public get isSelfUser(): boolean {
+    return this.userModel.id == this.currentUser.id;
+  }
 
   public get permissions(): any {
     return this.userModel.permissions as any;
@@ -43,6 +52,9 @@ export class UserAdministrationComponent {
         this.loadUserData();
       });
     }
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.returnTo = params['returnTo'] || this.returnTo;
+    });
   }
 
   loadUserData() {
@@ -133,7 +145,7 @@ export class UserAdministrationComponent {
   }
 
   public cancel() {
-    this.router.navigate(['/home/admin/users']);
+    this.router.navigate([this.returnTo]);
   }
 
   public resetPassword() {

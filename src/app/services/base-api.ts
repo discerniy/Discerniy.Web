@@ -106,6 +106,19 @@ export abstract class BaseApi {
         });
     }
 
+    protected toDataResponse<T>(response: Promise<HttpResponse<T>>): Promise<T> {
+        return new Promise<T>((resolve, reject) => {
+            response.then(res => {
+                if (res.ok) {
+                    resolve(res.body as T);
+                } else {
+                    reject(res.body);
+                }
+            });
+        });
+    }
+
+
     private getHeaders() {
         let headers: [string, string][] = [];
         headers.push(['Content-Type', 'application/json']);

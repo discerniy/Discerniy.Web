@@ -21,7 +21,7 @@ export class UserApiService extends BaseApi {
     return this._user;
   }
 
-  constructor() { 
+  constructor() {
     super();
   }
 
@@ -40,130 +40,45 @@ export class UserApiService extends BaseApi {
     return user;
   }
 
-  async getById(id: string): Promise<UserResponseDetailed> {
-    var response = await this.get<UserResponseDetailed>(id);
-    var promise = new Promise<UserResponseDetailed>((resolve, reject) => {
-      if (response.status !== 200) {
-        reject(response);
-      }
-      if (response.body != null) {
-        resolve(response.body);
-      }
-    });
-    return promise;
+  getById(id: string): Promise<UserResponseDetailed> {
+    return this.toDataResponse(this.get<UserResponseDetailed>(id));
   }
 
-  async create(user: User): Promise<UserResponseDetailed> {
-    var response = await this.post<UserResponseDetailed>('', user);
-    var promise = new Promise<UserResponseDetailed>((resolve, reject) => {
-      if (response.status !== 200) {
-        reject(response);
-      }
-      if (response.body != null) {
-        resolve(response.body);
-      }
-    });
-    return promise;
+  create(user: User): Promise<UserResponseDetailed> {
+    user.status = Number(user.status);
+    return this.toDataResponse(this.post<UserResponseDetailed>('', user));
   }
 
   async update(user: User): Promise<UserResponseDetailed> {
-    var response = await this.put<UserResponseDetailed>(user.id, user);
-    var promise = new Promise<UserResponseDetailed>((resolve, reject) => {
-      if (response.status !== 200) {
-        reject(response);
-      }
-      if (response.body != null) {
-        resolve(response.body);
-      }
-    });
-    return promise;
+    return this.toDataResponse(this.put<UserResponseDetailed>(user.id, user));
   }
 
   async updateStatus(id: string, status: ClientStatus): Promise<UserResponseDetailed> {
-    var response = await this.put<UserResponseDetailed>(`${id}/status`, Number(status));
-    var promise = new Promise<UserResponseDetailed>((resolve, reject) => {
-      if (response.status !== 200) {
-        reject(response);
-      }
-      if (response.body != null) {
-        resolve(response.body);
-      }
-    });
-    return promise;
+    return this.toDataResponse(this.put<UserResponseDetailed>(`${id}/status`, status));
   }
 
   async updatePassword(id: string, password: string): Promise<UserResponseDetailed> {
-    var response = await this.put<UserResponseDetailed>(`${id}/password`, password);
-    var promise = new Promise<UserResponseDetailed>((resolve, reject) => {
-      if (response.status !== 200) {
-        reject(response);
-      }
-      if (response.body != null) {
-        resolve(response.body);
-      }
-    });
-    return promise;
+    return this.toDataResponse(this.put<UserResponseDetailed>(`${id}/password`, password));
   }
 
   async updatePermissions(id: string, permissions: ClientPermissions): Promise<UserResponseDetailed> {
-    var response = await this.put<UserResponseDetailed>(`${id}/permissions`, permissions);
-    var promise = new Promise<UserResponseDetailed>((resolve, reject) => {
-      if (response.status !== 200) {
-        reject(response);
-      }
-      if (response.body != null) {
-        resolve(response.body);
-      }
-    });
-    return promise;
+    return this.toDataResponse(this.put<UserResponseDetailed>(`${id}/permissions`, permissions));
   }
 
   async updateAccessLevel(id: string, accessLevel: number): Promise<UserResponseDetailed> {
-    var response = await this.put<UserResponseDetailed>(`${id}/accessLevel`, accessLevel);
-    var promise = new Promise<UserResponseDetailed>((resolve, reject) => {
-      if (response.status !== 200) {
-        reject(response);
-      }
-      if (response.body != null) {
-        resolve(response.body);
-      }
-    });
-    return promise;
+    return this.toDataResponse(this.put<UserResponseDetailed>(`${id}/accessLevel`, accessLevel));
   }
 
   async updateScanRadius(id: string, scanRadius: number): Promise<UserResponseDetailed> {
-    var response = await this.put<UserResponseDetailed>(`${id}/scanRadius`, scanRadius);
-    var promise = new Promise<UserResponseDetailed>((resolve, reject) => {
-      if (response.status !== 200) {
-        reject(response);
-      }
-      if (response.body != null) {
-        resolve(response.body);
-      }
-    });
-    return promise;
+    return this.toDataResponse(this.put<UserResponseDetailed>(`${id}/scanRadius`, scanRadius));
   }
 
   async deleteUser(id: string): Promise<void> {
-    var response = await this.delete<any>(`${id}`);
-    var promise = new Promise<void>((resolve, reject) => {
-      if (response.status !== 200) {
-        reject(response);
-      }
-      resolve();
-    });
-    return promise;
+    return this.toDataResponse<any>(this.delete<void>(id));
   }
 
   async resetPassword(id: string): Promise<void> {
-    var response = await this.put<any>(`${id}/resetPassword`, "");
-    var promise = new Promise<void>((resolve, reject) => {
-      if (response.status !== 200) {
-        reject(response);
-      }
-      resolve();
-    });
-    return promise;
+    return this.toDataResponse<any>(this.put<void>(`${id}/resetPassword`, ""));
   }
 
   async activate(options: ActivateOptions): Promise<TokenResponse> {
@@ -182,31 +97,16 @@ export class UserApiService extends BaseApi {
     return promise;
   }
 
-  async getUsers(options: GetUsersOptions){
-    let url = `?Page=${options.page}&Limit=${options.limit}&Status=${options.status ?? ''}&FirstName=${options.firstName ?? ''}&LastName=${options.lastName ?? ''}&TaxPayerId=${options.taxPayerId ?? ''}&Email=${options.email ?? ''}`;
-    var response = await this.get<PageResponse<UserResponseDetailed>>(url);
-    var promise = new Promise<PageResponse<UserResponseDetailed>>((resolve, reject) => {
-      if (response.status !== 200) {
-        reject(response);
-      }
-      if (response.body != null) {
-        resolve(response.body);
-      }
-    });
-    return promise;
+  async getUsers(options: GetUsersOptions) {
+    let url = `?Page=${options.page}&Limit=${options.limit}&` +
+      `Status=${options.status ?? ''}&FirstName=${options.firstName ?? ''}&`+
+      `LastName=${options.lastName ?? ''}&TaxPayerId=${options.taxPayerId ?? ''}&`+
+      `Email=${options.email ?? ''}&AccessLevel=${options.accessLevel ?? ''}`;
+    return this.toDataResponse(this.get<PageResponse<UserResponseDetailed>>(url));
   }
 
   private async _getSelf(options: GetSelfOptions): Promise<UserResponseDetailed> {
-    var response = await this.get<UserResponseDetailed>(`self?detailed=${options.detailed}`);
-    var promise = new Promise<UserResponseDetailed>((resolve, reject) => {
-      if (response.status !== 200) {
-        reject(response);
-      }
-      if (response.body != null) {
-        resolve(response.body);
-      }
-    });
-    return promise;
+    return this.toDataResponse(this.get<UserResponseDetailed>(`self?detailed=${options.detailed}`));
   }
 }
 
@@ -227,5 +127,6 @@ type GetUsersOptions = {
   firstName: string | undefined | null;
   lastName: string | undefined | null;
   taxPayerId: string | undefined | null;
+  accessLevel: number | undefined | null;
   email: string | undefined | null;
 }

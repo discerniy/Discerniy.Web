@@ -16,6 +16,17 @@ export class TableComponent {
   isLoading: boolean = false;
   @Input()
   data: TableRecord[] = [];
+  @Input()
+  enableSearch: boolean = true;
+  @Input()
+  actions: TableRecordAction[] = [
+    {
+      name: 'table.view',
+      style: 'primary',
+      type: 'button',
+      event: this.viewInfoClick.bind(this)
+    }
+  ];
   @Output()
   onSearch: EventEmitter<SearchFilter[]> = new EventEmitter<SearchFilter[]>();
   @Output()
@@ -23,16 +34,27 @@ export class TableComponent {
   @Output()
   onViewInfo: EventEmitter<string> = new EventEmitter<string>();
 
-  public searchClick(){
+  public searchClick() {
     this.onSearch.emit(this.searchFilters);
   }
 
-  public loadMoreClick(){
+  public resetClick() {
+    this.searchFilters.forEach(filter => {
+      if (filter.defaultValue !== undefined) {
+        filter.value = filter.defaultValue;
+      } else {
+        filter.value = '';
+      }
+    });
+    this.onSearch.emit(this.searchFilters);
+  }
+
+  public loadMoreClick() {
     this.isLoading = true;
     this.onLoadMore.emit();
   }
 
-  public viewInfoClick(id: string){
+  public viewInfoClick(id: string) {
     this.onViewInfo.emit(id);
   }
 
@@ -50,6 +72,7 @@ export type TableColumn = {
 export type TableRecord = {
   id: string;
   values: (string | number | Date | boolean)[];
+  data: any;
 }
 
 export type SelectOption = {
@@ -65,4 +88,11 @@ export type SearchFilter = {
   selectOptions?: SelectOption[];
   defaultValue?: string | number | boolean;
   placeholder?: string;
+}
+
+export type TableRecordAction = {
+  name: string;
+  type: 'button' | 'checkbox' | 'radio';
+  style: 'primary' | 'secondary' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | undefined;
+  event: (id: string, event: any) => void;
 }
