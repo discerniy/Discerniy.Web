@@ -53,6 +53,10 @@ export class UserApiService extends BaseApi {
     return this.toDataResponse(this.put<UserResponseDetailed>(user.id, user));
   }
 
+  async updateSelfEmail(email: string): Promise<UserResponseDetailed> {
+    return this.toDataResponse(this.put<UserResponseDetailed>('self/email', email));
+  }
+
   async updateStatus(id: string, status: ClientStatus): Promise<UserResponseDetailed> {
     return this.toDataResponse(this.put<UserResponseDetailed>(`${id}/status`, status));
   }

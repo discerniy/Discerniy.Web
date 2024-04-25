@@ -1,1 +1,20 @@
 <div id="map"></div>
+
+<div class="control-area">
+    <a class="subscribe-box" (click)="toggleSubscribeToMeLocation()">
+        <img src="assets/icons/navigation-subscribe-{{subscribeToMeLocation ? 'on' : 'off'}}.png" class="locate">
+    </a>
+    <div class="confirm-box" *ngIf="confirmBox.visible">
+        <div class="confirm-box-bg"></div>
+        <div class="confirm-box-content">
+            <div class="confirm-box-title">{{confirmBox.title | translate}}</div>
+            <div class="confirm-box-message">{{confirmBox.message | translate}}</div>
+            <div class="confirm-box-buttons">
+                <button class="btn btn-success" (click)="confirmBox.onConfirm()">{{"buttons.confirm" |
+                    translate}}</button>
+                <button class="btn btn-secondary" (click)="confirmBox.onCancel()">{{"buttons.cancel" |
+                    translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>

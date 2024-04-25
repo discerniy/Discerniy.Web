@@ -1,53 +1,12 @@
 import { environment } from "src/environments/environment";
+import { StorageService } from "./storage.service";
 
-export abstract class BaseApi {
+export abstract class BaseApi extends StorageService {
     public abstract get apiUrl(): string;
     public get baseUrl(): string {
         return environment.apiUrl + this.apiUrl;
     }
-    protected authSecretKey = 'BearerToken';
-    protected tokenExpiresAtKey = 'TokenExpiresAt';
-    public get token(): string | null {
-        return localStorage.getItem(this.authSecretKey);
-    }
-
-    protected set token(value: string | null) {
-        if (value) {
-            this._isAuthenticated = true;
-            localStorage.setItem(this.authSecretKey, value);
-        } else {
-            this._isAuthenticated = false;
-            localStorage.removeItem(this.authSecretKey);
-        }
-    }
-
-    protected get tokenExpiresAt(): Date | null {
-        let value = localStorage.getItem(this.tokenExpiresAtKey);
-        if (value) {
-            return new Date(value);
-        }
-        return null;
-    }
-
-    protected set tokenExpiresAt(value: Date | null) {
-        if (value) {
-            localStorage.setItem(this.tokenExpiresAtKey, value.toISOString());
-        } else {
-            localStorage.removeItem(this.tokenExpiresAtKey);
-        }
-    }
-
-    public get isAuthenticated(): boolean {
-        if (this._isAuthenticated === null) {
-            this._isAuthenticated = this.token !== null && this.tokenExpiresAt !== null && this.tokenExpiresAt > new Date();
-        }
-        return this._isAuthenticated;
-    }
-
-    private _isAuthenticated: boolean | null = null;
-
-    constructor() { }
-
+    
     protected get<T>(url: string) {
         let request = fetch(`${this.baseUrl}/${url}`, {
             headers: this.getHeaders()

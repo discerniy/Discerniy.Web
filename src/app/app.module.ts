@@ -20,6 +20,7 @@ import { ActivationPageComponent } from './components/activation-page/activation
 import { ViewGroupComponent } from './components/group/view-group/view-group.component';
 import { GroupListComponent } from './components/group/group-list/group-list.component';
 import { GroupMemberListComponent } from './components/group/group-member-list/group-member-list.component';
+import { ConfirmPageComponent } from './components/confirm-page/confirm-page.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { GroupMemberListComponent } from './components/group/group-member-list/g
     ActivationPageComponent,
     ViewGroupComponent,
     GroupListComponent,
-    GroupMemberListComponent
+    GroupMemberListComponent,
+    ConfirmPageComponent
   ],
   imports: [
     BrowserModule,

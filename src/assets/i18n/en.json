@@ -163,8 +163,15 @@
     "groupMemberList":{
         "add": "Add Member"
     },
+    "map":{
+        "confirmBox": {
+            "title": "Confirm",
+            "message": "Are you sure?"
+        }
+    },
     "buttons":{
         "save": "Save",
+        "confirm": "Confirm",
         "cancel": "Cancel",
         "create": "Create",
         "delete": "Delete",

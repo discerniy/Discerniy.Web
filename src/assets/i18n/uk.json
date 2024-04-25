@@ -162,8 +162,15 @@
     "groupMemberList":{
         "add": "Додати учасника"
     },
+    "map":{
+        "confirmBox": {
+            "title": "Підтвердження",
+            "message": "Ви впевнені?"
+        }
+    },
     "buttons":{
         "save": "Зберегти",
+        "confirm": "Підтвердити",
         "cancel": "Скасувати",
         "create": "Створити",
         "delete": "Видалити",

@@ -12,9 +12,12 @@ import { UserApiService } from 'src/app/services/user-api.service';
 export class UserSettingsComponent {
   userModel: User = new User();
 
+  oldEmail: string = '';
+
   constructor(private userApi: UserApiService, private router: Router) {
     this.userApi.getSelfDetailed().then(user => {
       this.userModel = User.fromResponse(user);
+      this.oldEmail = user.email;
     });
   }
   statusToText(): string {
@@ -33,6 +36,13 @@ export class UserSettingsComponent {
   }
 
   save() {
+    if(this.userApi.user.permissions.users.canUpdateSelfEmail){
+      if (this.userModel.email !== this.oldEmail) {
+        this.userApi.updateSelfEmail(this.userModel.email).then(() => {
+          alert('See your email to confirm the changes');
+        });
+      }
+    }
   }
 
   cancel() {

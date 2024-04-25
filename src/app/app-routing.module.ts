@@ -12,9 +12,11 @@ import { ActivationPageComponent } from './components/activation-page/activation
 import { ViewGroupComponent } from './components/group/view-group/view-group.component';
 import { GroupListComponent } from './components/group/group-list/group-list.component';
 import { GroupMemberListComponent } from './components/group/group-member-list/group-member-list.component';
+import { ConfirmPageComponent } from './components/confirm-page/confirm-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'confirm', component: ConfirmPageComponent },
   { path: 'login', component: LoginComponent },
   {
     path: 'home', component: HomeComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children:

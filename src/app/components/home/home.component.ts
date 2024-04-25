@@ -12,8 +12,8 @@ export class HomeComponent {
   constructor(private router: Router) {
     this.router.events.subscribe((event) => {
       let splitUrl = this.router.url.split('/');
-      if(splitUrl.length > 1 && splitUrl[1] == 'home' && splitUrl[2] == 'map'){
-        this.isMapPage = true;
+      if(splitUrl.length > 1 && splitUrl[1] == 'home'){
+        this.isMapPage = splitUrl[2].split('?')[0] == 'map';
       }else {
         this.isMapPage = false;
       }
