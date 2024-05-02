@@ -3,6 +3,7 @@ import * as signalR from '@microsoft/signalr';
 import { StorageService } from './storage.service';
 import { environment } from 'src/environments/environment';
 import { GeoCoordinates } from '../models/data/GeoCoordinates';
+import { Alert, AlertsService } from './alerts.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,24 +11,41 @@ import { GeoCoordinates } from '../models/data/GeoCoordinates';
 export class SignalRService {
 
   private connection: signalR.HubConnection | null = null;
+  private warnMessage: Alert | null = null;
 
   public get isConnected(): boolean {
     return this.connection?.state === signalR.HubConnectionState.Connected;
   }
 
-  constructor(private storage: StorageService) { }
+  constructor(private storage: StorageService, private alertsService: AlertsService) { }
 
   public connect() {
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl(environment.signalRUrl, {
         accessTokenFactory: () => {
-          return this.storage.token || '';
+          return this.storage.token ?? '';
         }
       })
       .build();
 
     this.connection.start().then(() => {
       console.log('SignalR connected');
+
+      this.connection?.on('warning', (response: {message: string, details: string}) => {
+        if(this.warnMessage == null) {
+          this.warnMessage = this.alertsService.add(new Alert('warning', `SignalR: ${response.message}`, {
+            lifetime: 0,
+            index: 999_999_999,
+            onclose: (alert: Alert) => {
+              this.warnMessage = null;
+              console.info('Message removed', this.warnMessage);
+            }
+          }));
+          console.info('Message added', this.warnMessage);
+        }
+        this.warnMessage.message = `SignalR: ${response.message}`;
+      });
+
     }).catch(err => {
       console.error('SignalR connection failed', err);
     });

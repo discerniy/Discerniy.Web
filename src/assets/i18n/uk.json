@@ -160,6 +160,9 @@
     "userList":{
         "confirmSelection": "Підтвердити вибір"
     },
+    "userSettings":{
+        "emailChanged": "Підтвердження зміни електронної пошти було відправлено на нову адресу"
+    },
     "groupMemberList":{
         "add": "Додати учасника"
     },

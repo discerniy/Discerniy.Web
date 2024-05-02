@@ -26,6 +26,8 @@ import { MapSettingsToolBoxComponent } from './components/map-settings-tool-box/
 import { ModalBoxComponent } from './components/modal-box/modal-box.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { NgbAlertModule, NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { AlertsService } from './services/alerts.service';
+import { AuthApiService } from './services/auth-api.service';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,7 @@ import { NgbAlertModule, NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng
     NgbModule,
     NgbPaginationModule, NgbAlertModule
   ],
-  providers: [AuthGuard, PermissionGuard],
+  providers: [AuthGuard, PermissionGuard, AlertsService, AuthApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

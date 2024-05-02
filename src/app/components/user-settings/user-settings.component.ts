@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClientStatus } from 'src/app/models/data/Client';
 import { User } from 'src/app/models/data/User';
+import { Alert, AlertsService } from 'src/app/services/alerts.service';
 import { UserApiService } from 'src/app/services/user-api.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class UserSettingsComponent {
 
   oldEmail: string = '';
 
-  constructor(private userApi: UserApiService, private router: Router) {
+  constructor(private userApi: UserApiService, private router: Router, private alertsService: AlertsService) {
     this.userApi.getSelfDetailed().then(user => {
       this.userModel = User.fromResponse(user);
       this.oldEmail = user.email;
@@ -39,7 +40,9 @@ export class UserSettingsComponent {
     if(this.userApi.user.permissions.users.canUpdateSelfEmail){
       if (this.userModel.email !== this.oldEmail) {
         this.userApi.updateSelfEmail(this.userModel.email).then(() => {
-          alert('See your email to confirm the changes');
+          this.alertsService.add(new Alert('info', 'userSettings.emailChanged',{
+            lifetime: 10_000
+          }));
         });
       }
     }

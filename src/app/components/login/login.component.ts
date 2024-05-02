@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { AuthApiService } from 'src/app/services/auth-api.service';
+import { Alert, AlertsService } from 'src/app/services/alerts.service';
 
 @Component({
   selector: 'app-login',
@@ -12,10 +13,16 @@ export class LoginComponent implements OnInit{
   public email: string = "";
   public password: string = "";
 
-  constructor(private translate: TranslateService, private authApi: AuthApiService, private router: Router){}
+  constructor(private authApi: AuthApiService, private router: Router, private alertsService: AlertsService){}
   ngOnInit(): void {
     if(this.authApi.isAuthenticatedUser){
       this.router.navigate(['/home']);
+    }
+  }
+
+  public onLoginKeyDown(event: KeyboardEvent){
+    if(event.key === 'Enter'){
+      this.onLogin();
     }
   }
 
@@ -25,8 +32,10 @@ export class LoginComponent implements OnInit{
         if(response.ok){
           this.router.navigate(['/home']);
         } else {
-          alert(this.translate.instant('login.error'));
+          this.alertsService.add(new Alert('danger', 'login.error'));
         }
+      }).catch(() => {
+        this.alertsService.add(new Alert('danger', 'login.error'));
       });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Alert, AlertsService } from 'src/app/services/alerts.service';
 
 @Component({
@@ -6,22 +6,16 @@ import { Alert, AlertsService } from 'src/app/services/alerts.service';
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.css']
 })
-export class NotificationsComponent implements OnInit {
+export class NotificationsComponent {
   public get alerts() {
     return this.alertsService.list;
   }
   constructor(private alertsService: AlertsService) { }
-  async ngOnInit(): Promise<void> {
-
-    this.alertsService.add(new Alert('success', 'This is a success alert with <strong>HTML</strong>.', {
-      lifetime: 15_000,
-      onclick: (caller: Alert) => {
-        console.log('Alert clicked:', caller.id);
-      }
-    }));
-  }
 
   close(alert: Alert) {
+    if(alert.onclose) {
+      alert.onclose(alert);
+    }
     this.alertsService.remove(alert);
   }
 

@@ -88,9 +88,6 @@ export class MapComponent implements OnInit, AfterViewInit {
       await new Promise(resolve => setTimeout(resolve, 100));
     }
     this.signalR.on('NearClients', this.handleNearClients.bind(this));
-    this.signalR.on('warning', (message: any) => {
-      console.warn(message);
-    });
 
     setInterval(() => {
       this.signalR.updateLocation({

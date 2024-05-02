@@ -161,6 +161,9 @@
     "userList":{
         "confirmSelection": "Confirm Selection"
     },
+    "userSettings":{
+        "emailChanged": "See your email to confirm the changes."
+    },
     "groupMemberList":{
         "add": "Add Member"
     },
