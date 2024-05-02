@@ -1,13 +1,22 @@
 import { EventEmitter } from '@angular/core';
-import * as L from 'leaflet';
+import * as L from "leaflet";
+import GeometryTools from 'src/app/tools/GeometryTools';
 
 export class MapSector {
 
     private map: L.Map;
+    private _visible: boolean = true;
+    private _supportEdit: boolean = false;
 
     public id: string = '';
     public name: string = '';
-    public supportEdit: boolean = false;
+    public get supportEdit() {
+        return this._supportEdit;
+    }
+
+    public set supportEdit(value: boolean) {
+        this._supportEdit = value;
+    }
 
     public onInside: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -19,16 +28,47 @@ export class MapSector {
     public get hasSelectedPoint() {
         return this.selectedPoint != undefined;
     }
+
+    public get visible() {
+        return this._visible;
+    }
+
+    public set visible(value: boolean) {
+        this._visible = value;
+        if (this.polygon) {
+            if (value) {
+                this.polygon.addTo(this.map);
+            } else {
+                this.polygon.remove();
+            }
+        }
+        this.points.forEach(p => {
+            if (value) {
+                p.marker.addTo(this.map);
+            } else {
+                p.marker.remove();
+            }
+        });
+    }
+
+    public get area() {
+        if (this.polygon) {
+            var area = GeometryTools.area(this.polygon.getLatLngs()[0]);
+            return Math.round(area * 100) / 100;
+        }
+        return 0;
+    }
+
     public polygon: L.Polygon | null = null;
 
     constructor(map: L.Map) {
         this.map = map;
         document.addEventListener('keydown', (e: KeyboardEvent) => this.handleKeyDown(e));
-        this.map.addEventListener('mousemove', (e: L.LeafletMouseEvent) => this.handleMouseMove(e));
+        // this.map.addEventListener('mousemove', (e: L.LeafletMouseEvent) => this.handleMouseMove(e));
         this.addMarker = L.marker([0, 0], {
             icon: L.icon({
                 iconUrl: 'assets/icons/add.png',
-                iconSize: [16, 16],
+                iconSize: [18, 18],
                 className: 'polygon-point-icon'
             })
         });
@@ -42,11 +82,30 @@ export class MapSector {
         return this.selectedPoint;
     }
 
-    public addPoint(point: MapSectorPoint) {
-        this.points.push(point);
+    public getPoints() {
+        return this.points.map(p => ({ lat: p.lat, lng: p.lng }));
+    }
 
-        point.marker.addTo(this.map);
+    public addPoints(points: { lat: number, lng: number }[]) {
+        points.forEach(p => {
+            this.addPoint(new MapSectorPoint(p.lat, p.lng));
+        });
+    }
+
+    public addPoint(point: MapSectorPoint) {
+        this.points.pop();
+        this.points.push(point);
+        
+        let firstPoint = this.points[0];
+        this.points.push(firstPoint);
+
+        if (this.visible) {
+            point.marker.addTo(this.map);
+        }
         point.marker.addEventListener('click', (e: L.LeafletMouseEvent) => {
+            if (!this.supportEdit) {
+                return;
+            }
             if (this.selectedPoint?.id === point.id) {
                 point.selected = !point.selected;
                 return;
@@ -58,10 +117,16 @@ export class MapSector {
         });
 
         if (this.polygon) {
-            this.polygon.addLatLng([point.lat, point.lng]);
+            // rm last point
+            this.polygon.setLatLngs(this.points.map(p => [p.lat, p.lng]));
         } else {
             this.polygon = L.polygon([[point.lat, point.lng]]);
-            this.polygon.addTo(this.map);
+            if (this.visible) {
+                this.polygon.addTo(this.map);
+                this.polygon.bindPopup(() => {
+                    return `Name: ${this.name}<br>Area: ${this.area} m<sup>2</sup>`;
+                });
+            }
         }
     }
 
@@ -123,10 +188,10 @@ export class MapSector {
         }
 
         let speed = 0.0001;
-        if(e.shiftKey) {
+        if (e.shiftKey) {
             speed = 0.001;
         }
-        if(e.ctrlKey) {
+        if (e.ctrlKey) {
             speed = 0.00001;
         }
 
@@ -169,43 +234,25 @@ export class MapSector {
 
     private handleMouseMove(e: L.LeafletMouseEvent) {
         if (this.polygon) {
-            let latlng = e.latlng;
-            let inside = false;
-            let x = latlng.lat, y = latlng.lng;
-            let vs: L.LatLng[] = this.polygon.getLatLngs()[0] as L.LatLng[];
-
-            vs.forEach((v, i) => {
-                let j = (i + 1) % vs.length;
-                if (((vs[i].lng > y) != (vs[j].lng > y)) &&
-                    (x < (vs[j].lat - vs[i].lat) * (y - vs[i].lng) / (vs[j].lng - vs[i].lng) + vs[i].lat)) {
-                    inside = !inside;
+            // if mouse is near to the polygon edge, show add marker in the middle of the edge
+            let latlngs = this.polygon.getLatLngs()[0] as L.LatLng[];
+            let onEdge = false;
+            for (let i = 1; i < latlngs.length; i++) {
+                let j = (i + 2) % latlngs.length;
+                let point1 = latlngs[i];
+                let point2 = latlngs[j];
+                let edge = L.latLngBounds(point1, point2);
+                if (edge.contains(e.latlng)) {
+                    onEdge = true;
+                    this.addMarker.setLatLng(edge.getCenter());
+                    if (!this.map.hasLayer(this.addMarker)) {
+                        this.addMarker.addTo(this.map);
+                    }
+                    return;
                 }
-            });
-            this.onInside.emit(inside);
-
-            // show add button on the center of the closest edge
-            let minDistance = Number.MAX_VALUE;
-            let closestPoint: L.Point | null = null;
-
-            let iPoint = this.map.latLngToLayerPoint(vs[0]);
-            let jPoint = this.map.latLngToLayerPoint(vs[1]);
-
-            vs.forEach((v, i) => {
-                let j = (i + 1) % vs.length;
-                iPoint = this.map.latLngToLayerPoint(vs[i]);
-                jPoint = this.map.latLngToLayerPoint(vs[j]);
-                let distance = L.LineUtil.pointToSegmentDistance(e.layerPoint, iPoint, jPoint);
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    closestPoint = L.LineUtil.closestPointOnSegment(e.layerPoint, iPoint, jPoint);
-                }
-            });
-
-            if (closestPoint != null) {
-                let latlng = this.map.layerPointToLatLng(closestPoint);
-
-                this.addMarker.setLatLng(latlng);
-                this.addMarker.addTo(this.map);
+            }
+            if (!onEdge) {
+                this.map.removeLayer(this.addMarker);
             }
         }
     }

@@ -154,7 +154,8 @@
     "viewGroup": {
         "members": {
             "list": "Список учасників"
-        }
+        },
+        "setArea": "Встановити область"
     },
     "userList":{
         "confirmSelection": "Підтвердити вибір"
@@ -167,6 +168,9 @@
             "title": "Підтвердження",
             "message": "Ви впевнені?"
         }
+    },
+    "mapSettings":{
+        "groups": "Групи"
     },
     "buttons":{
         "save": "Зберегти",

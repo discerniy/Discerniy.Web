@@ -42,7 +42,7 @@
                 <li class="nav-item dropdown">
                     <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown"
                         href="#">{{currentLanguage.label}}</a>
-                    <div class="dropdown-menu">
+                    <div class="dropdown-menu language">
                         <a class="dropdown-item" *ngFor="let language of languageList"
                             (click)="changeLanguage(language.code)">{{language.label}}</a>
                     </div>

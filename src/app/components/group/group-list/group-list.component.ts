@@ -62,13 +62,13 @@ export class GroupListComponent {
     this.loadAllGroups();
   }
 
-  private groupToRecord(group: GroupDetail): TableRecord {
+  private groupToRecord(group: Group): TableRecord {
     return {
       id: group.id,
       values: [
         group.name,
         group.description || '-', // If description is empty, show a dash
-        group.members.length,
+        group.memberCount,
         group.accessLevel
       ],
       data: {}

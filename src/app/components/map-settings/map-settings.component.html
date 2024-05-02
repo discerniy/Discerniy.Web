@@ -1,0 +1,17 @@
+<div class="control-area">
+
+    <app-map-settings-tool-box class="group-list" [title]="'mapSettings.groups'">
+        <div class="group-list-item" *ngFor="let group of groups">
+            <div class="group-list-item-title">
+                <a [routerLink]="['/home/group', group.item.id]">{{group.item.name}}</a>
+            </div>
+            <div class="group-list-item-checkbox">
+                <input type="checkbox" [checked]="group.checked" (change)="toggleGroup(group)">
+            </div>
+        </div>
+    </app-map-settings-tool-box>
+
+    <a class="subscribe-box" (click)="toggleSubscribeToMeLocation()">
+        <img src="assets/icons/navigation-subscribe-{{config.subscribeToMeLocation ? 'on' : 'off'}}.png" class="locate">
+    </a>
+</div>

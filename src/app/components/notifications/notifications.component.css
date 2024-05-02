@@ -1,0 +1,16 @@
+.notifications-box {
+    position: absolute;
+    top: 0;
+    right: 0;
+    max-width: 512px;
+    width: 100%;
+}
+
+.clickable {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.clickable:hover {
+    background-color: var(--color-light);
+}

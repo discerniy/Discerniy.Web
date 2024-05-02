@@ -21,13 +21,22 @@ import { ViewGroupComponent } from './components/group/view-group/view-group.com
 import { GroupListComponent } from './components/group/group-list/group-list.component';
 import { GroupMemberListComponent } from './components/group/group-member-list/group-member-list.component';
 import { ConfirmPageComponent } from './components/confirm-page/confirm-page.component';
+import { MapSettingsComponent } from './components/map-settings/map-settings.component';
+import { MapSettingsToolBoxComponent } from './components/map-settings-tool-box/map-settings-tool-box.component';
+import { ModalBoxComponent } from './components/modal-box/modal-box.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NgbAlertModule, NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ModalBoxComponent,
+    NotificationsComponent,
     LoginComponent,
     HomeComponent,
     MapComponent,
+    MapSettingsToolBoxComponent,
+    MapSettingsComponent,
     TableComponent,
     NavBarComponent,
     UserSettingsComponent,
@@ -44,7 +53,9 @@ import { ConfirmPageComponent } from './components/confirm-page/confirm-page.com
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    NgxTranslateModule
+    NgxTranslateModule,
+    NgbModule,
+    NgbPaginationModule, NgbAlertModule
   ],
   providers: [AuthGuard, PermissionGuard],
   bootstrap: [AppComponent]

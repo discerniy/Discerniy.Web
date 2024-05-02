@@ -1,8 +1,11 @@
 import { Component, OnInit, AfterViewInit, HostListener } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as L from 'leaflet';
 import { MapSector, MapSectorPoint } from 'src/app/models/data/MapSector';
+import { User } from 'src/app/models/data/User';
 import { SignalRService } from 'src/app/services/signal-r.service';
+import { UserApiService } from 'src/app/services/user-api.service';
+import { MapProperties } from '../map-settings/map-settings.component';
 
 type Marker = { [key: string]: L.Marker };
 
@@ -23,17 +26,14 @@ export class MapComponent implements OnInit, AfterViewInit {
   public confirmBox = {
     visible: false,
     title: 'map.confirmBox.title',
-    message: 'map.confirmBox.message',
-    onConfirm: () => {
-      this.confirmBox.visible = false;
-    },
-    onCancel: () => {
-      this.confirmBox.visible = false;
-    }
-  }
+    message: 'map.confirmBox.message'
+  };
 
-  private init: boolean = false;
-  private map!: L.Map
+  public returnTo = '';
+
+  public user: User = new User();
+  public init: boolean = false;
+  public map!: L.Map
   public mode: 'select' | 'view' = 'view';
   public type: 'area' | 'point' = 'point';
   public meLocation: L.Marker = L.marker([0, 0], {
@@ -44,14 +44,22 @@ export class MapComponent implements OnInit, AfterViewInit {
     })
   });
   public compass: number = 0;
-  public subscribeToMeLocation: boolean = false;
+  nearClients: Marker = {};
 
-  markers: Marker = {};
+  public config: MapProperties = {
+    subscribeToMeLocation: false
+  };
 
   newSector!: MapSector;
 
-  constructor(private route: ActivatedRoute, private signalR: SignalRService) {
+  constructor(private route: ActivatedRoute, private router: Router, private signalR: SignalRService, private userService: UserApiService) {
+
+    this.userService.getSelfDetailed().then(user => {
+      this.user = User.fromResponse(user);
+    });
+
     this.route.queryParams.subscribe(params => {
+      this.returnTo = params['returnTo'];
       let mode = params['mode'];
       if (mode === 'select') {
         this.mode = 'select';
@@ -80,6 +88,9 @@ export class MapComponent implements OnInit, AfterViewInit {
       await new Promise(resolve => setTimeout(resolve, 100));
     }
     this.signalR.on('NearClients', this.handleNearClients.bind(this));
+    this.signalR.on('warning', (message: any) => {
+      console.warn(message);
+    });
 
     setInterval(() => {
       this.signalR.updateLocation({
@@ -94,17 +105,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.centerMap();
     this.map.addEventListener('click', this.handleMouseClick.bind(this));
     this.map.addEventListener('keydown', this.handleKeyDown.bind(this));
-    this.map.addEventListener('move', (e: L.LeafletEvent) => {
-      this.subscribeToMeLocation = false;
-    });
-  }
 
-  public toggleSubscribeToMeLocation() {
-    this.subscribeToMeLocation = !this.subscribeToMeLocation;
-    if (this.subscribeToMeLocation) {
-      let zoom = this.map.getZoom();
-      this.map.setView(this.meLocation.getLatLng(), zoom);
-    }
   }
 
   @HostListener('window:deviceorientationabsolute', ['$event'])
@@ -114,8 +115,9 @@ export class MapComponent implements OnInit, AfterViewInit {
       if (this.compass !== null) {
         let element = this.meLocation.getElement();
         if (element) {
+          element.style.transformOrigin = 'center';
           let parts = element.style.transform.match(/translate3d\(([\d-]+)px, ([\d-]+)px, ([\d-]+)px\)/);
-          element.style.transform = `${parts?.[0]} rotate(${this.compass}deg) translate(-50%, -50%)`;
+          element.style.transform = `${parts?.[0]} rotate(${this.compass}deg)`;
         }
       }
     }
@@ -144,7 +146,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 
       this.meLocation.setLatLng([latitude, longitude]);
 
-      if (this.subscribeToMeLocation || this.init === false) {
+      if (this.config.subscribeToMeLocation || this.init === false) {
         let zoom = this.map.getZoom();
         this.map.setView(this.meLocation.getLatLng(), zoom);
         this.init = true;
@@ -153,8 +155,21 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   private handleNearClients(nearClients: NearClient[]) {
+
+    Object.keys(this.nearClients).forEach(key => {
+      if (nearClients.find(nearClient => nearClient.id === key) === undefined) {
+        this.nearClients[key].removeFrom(this.map);
+        delete this.nearClients[key];
+      }
+    });
+
     nearClients.forEach(nearClient => {
-      let marker = this.markers[nearClient.id];
+      let marker = this.nearClients[nearClient.id];
+
+      if(this.user.id === nearClient.id) {
+        return;
+      }
+
       if (marker !== undefined) {
         marker.removeFrom(this.map);
         marker.setLatLng([nearClient.northing, nearClient.easting]);
@@ -169,13 +184,14 @@ export class MapComponent implements OnInit, AfterViewInit {
         });
         markerNew.bindPopup(`<b>${nearClient.nickname}</b><br>${nearClient.updateAt}`);
         markerNew.addTo(this.map);
-        this.markers[nearClient.id] = markerNew;
+        this.nearClients[nearClient.id] = markerNew;
       }
       // rotate marker
-      let element = this.markers[nearClient.id].getElement();
+      let element = this.nearClients[nearClient.id].getElement();
       if (element) {
+        element.style.transformOrigin = 'center';
         let parts = element.style.transform.match(/translate3d\(([\d-]+)px, ([\d-]+)px, ([\d-]+)px\)/);
-        element.style.transform = `${parts?.[0]} rotate(${nearClient.compass}deg) translate(-50%, -50%)`;
+        element.style.transform = `${parts?.[0]} rotate(${nearClient.compass}deg)`;
       }
     });
   }
@@ -203,6 +219,31 @@ export class MapComponent implements OnInit, AfterViewInit {
         }
       }
     }
+  }
+
+  public confirm() {
+    if(this.returnTo){
+      this.router.navigate([this.returnTo], {
+        state: {
+          event: 'map.confirm',
+          sector: this.newSector.getPoints()
+        }
+      });
+      return;
+    }
+
+    this.confirmBox.visible = false;
+  }
+
+  public cancel() {
+    if (this.returnTo) {
+      console.log(this.returnTo);
+      this.router.navigate([this.returnTo]);
+      return;
+    }
+
+    this.confirmBox.visible = false;
+    this.mode = 'view';
   }
 }
 

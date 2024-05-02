@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseApi } from './base-api';
-import { GroupResponse } from '../models/responses/group-response';
-import { Group } from '../models/data/Group';
+import { Group, GroupDetail } from '../models/data/Group';
 import { PageResponse } from '../models/responses/page-response';
 import { ClientResponse } from '../models/responses/client-response';
 import { ClientStatus, ClientType } from '../models/data/Client';
@@ -19,16 +18,20 @@ export class GroupApiService extends BaseApi{
   }
 
   getGroup(id: string) {
-    return this.toDataResponse(this.get<GroupResponse>(id));
+    return this.toDataResponse(this.get<Group>(id));
+  }
+
+  getGroupDetail(id: string) {
+    return this.toDataResponse(this.get<GroupDetail>(`${id}/detail`));
   }
 
   getMyGroups() {
-    return this.toDataResponse(this.get<GroupResponse[]>('my'));
+    return this.toDataResponse(this.get<Group[]>('my'));
   }
 
   getAllGroups(options: GroupListRequest) {
     var url = `?Page=${options.page}&Limit=${options.limit}&AccessLevel=${options.accessLevel || ''}&Name=${options.name || ''}`;
-    return this.toDataResponse(this.get<PageResponse<GroupResponse>>(url));
+    return this.toDataResponse(this.get<PageResponse<Group>>(url));
   }
 
   getMembers(groupId: string, options: GroupMembersRequest) {
@@ -49,15 +52,19 @@ export class GroupApiService extends BaseApi{
   }
 
   create(group: Group) {
-    return this.toDataResponse(this.post<GroupResponse>('', group));
+    return this.toDataResponse(this.post<Group>('', group));
   }
 
   update(group: UpdateGroupRequest) {
-    return this.toDataResponse(this.put<GroupResponse>(group.id, group));
+    return this.toDataResponse(this.put<Group>(group.id, group));
+  }
+
+  updateArea(id: string, data: UpdateGroupAreaRequest) {
+    return this.toDataResponse(this.put<Group>(`${id}/area`, data));
   }
 
   remove(id: string) {
-    return this.toDataResponse(this.delete<GroupResponse>(id));
+    return this.toDataResponse(this.delete<Group>(id));
   }
 }
 
@@ -66,6 +73,10 @@ type UpdateGroupRequest = {
   name: string;
   description: string;
   accessLevel: number;
+};
+
+type UpdateGroupAreaRequest = {
+  coordinates: { easting: number, northing: number }[];
 };
 
 type GroupListRequest = {
