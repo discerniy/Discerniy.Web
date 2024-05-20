@@ -4,6 +4,7 @@ import { Group, GroupDetail } from '../models/data/Group';
 import { PageResponse } from '../models/responses/page-response';
 import { ClientResponse } from '../models/responses/client-response';
 import { ClientStatus, ClientType } from '../models/data/Client';
+import { ResourceService } from './resource.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class GroupApiService extends BaseApi{
     return '/group';
   }
 
-  constructor() {
+  constructor(private resourceService: ResourceService) {
     super();
   }
 
@@ -26,7 +27,10 @@ export class GroupApiService extends BaseApi{
   }
 
   getMyGroups() {
-    return this.toDataResponse(this.get<Group[]>('my'));
+    return this.toDataResponse(this.get<Group[]>('my')).then(groups => {
+      this.resourceService.groups = groups;
+      return groups;
+    });
   }
 
   getAllGroups(options: GroupListRequest) {

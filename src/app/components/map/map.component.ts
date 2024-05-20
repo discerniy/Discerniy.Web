@@ -6,6 +6,10 @@ import { User } from 'src/app/models/data/User';
 import { SignalRService } from 'src/app/services/signal-r.service';
 import { UserApiService } from 'src/app/services/user-api.service';
 import { MapProperties } from '../map-settings/map-settings.component';
+import { MapSignalREvents } from './map.signalrEvents';
+import { GroupApiService } from 'src/app/services/group-api.service';
+import { MarkerApiService } from 'src/app/services/marker-api.service';
+import { Group } from 'src/app/models/data/Group';
 
 type Marker = { [key: string]: L.Marker };
 
@@ -33,7 +37,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   public user: User = new User();
   public init: boolean = false;
-  public map!: L.Map
+  public map!: L.Map;
   public mode: 'select' | 'view' = 'view';
   public type: 'area' | 'point' = 'point';
   public meLocation: L.Marker = L.marker([0, 0], {
@@ -52,7 +56,12 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   newSector!: MapSector;
 
-  constructor(private route: ActivatedRoute, private router: Router, private signalR: SignalRService, private userService: UserApiService) {
+  constructor(private route: ActivatedRoute,
+    private router: Router,
+    private signalR: SignalRService,
+    private userService: UserApiService,
+    private groupService: GroupApiService,
+    private markerService: MarkerApiService) {
 
     this.userService.getSelfDetailed().then(user => {
       this.user = User.fromResponse(user);
@@ -83,10 +92,8 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   async ngAfterViewInit() {
-    this.signalR.connect();
-    while (!this.signalR.isConnected) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
+    await this.signalR.connect();
+    console.log('ngAfterViewInit');
     this.signalR.on('NearClients', this.handleNearClients.bind(this));
 
     setInterval(() => {
@@ -100,6 +107,13 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.initializeMap();
     this.getMeLocation();
     this.centerMap();
+    this.signalR.eventHandler.setMap(this.map);
+    this.signalR.eventHandler.init();
+    
+    this.groupService.getMyGroups().then(groups => {
+      this.loadMarkers(groups);
+    });
+
     this.map.addEventListener('click', this.handleMouseClick.bind(this));
     this.map.addEventListener('keydown', this.handleKeyDown.bind(this));
 
@@ -118,6 +132,31 @@ export class MapComponent implements OnInit, AfterViewInit {
         }
       }
     }
+  }
+
+  public confirm() {
+    if (this.returnTo) {
+      this.router.navigate([this.returnTo], {
+        state: {
+          event: 'map.confirm',
+          sector: this.newSector.getPoints()
+        }
+      });
+      return;
+    }
+
+    this.confirmBox.visible = false;
+  }
+
+  public cancel() {
+    if (this.returnTo) {
+      console.log(this.returnTo);
+      this.router.navigate([this.returnTo]);
+      return;
+    }
+
+    this.confirmBox.visible = false;
+    this.mode = 'view';
   }
 
   private initializeMap() {
@@ -163,7 +202,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     nearClients.forEach(nearClient => {
       let marker = this.nearClients[nearClient.id];
 
-      if(this.user.id === nearClient.id) {
+      if (this.user.id === nearClient.id) {
         return;
       }
 
@@ -218,29 +257,10 @@ export class MapComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public confirm() {
-    if(this.returnTo){
-      this.router.navigate([this.returnTo], {
-        state: {
-          event: 'map.confirm',
-          sector: this.newSector.getPoints()
-        }
-      });
-      return;
-    }
-
-    this.confirmBox.visible = false;
-  }
-
-  public cancel() {
-    if (this.returnTo) {
-      console.log(this.returnTo);
-      this.router.navigate([this.returnTo]);
-      return;
-    }
-
-    this.confirmBox.visible = false;
-    this.mode = 'view';
+  private loadMarkers(groups: Group[]) {
+    groups.forEach(group => {
+      this.markerService.getMarkersForGroup(group.id);
+    });
   }
 }
 

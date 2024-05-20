@@ -64,6 +64,13 @@
                             *ngIf="user.permissions.users.canCreate">{{'navigation.users.add' | translate}}</a>
                     </div>
                 </li>
+                <li class="nav-item dropdown" *ngIf="isAuthenticated && user.permissions.robots.canRead">
+                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">{{'navigation.robots.title' | translate}}</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" [routerLink]="['/home/admin/robots']">{{'navigation.robots.list' | translate}}</a>
+                        <a class="dropdown-item" [routerLink]="['/home/admin/robots/new']" *ngIf="user.permissions.robots.canCreate">{{'navigation.robots.add' | translate}}</a>
+                    </div>
+                </li>
                 <li class="nav-item dropdown" *ngIf="isAuthenticated">
                     <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown"
                         href="#">{{'navigation.groups.title' | translate}}</a>

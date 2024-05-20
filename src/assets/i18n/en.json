@@ -1,196 +1,210 @@
 {
-    "navigation": {
-        "theme": {
-            "light": "Light",
-            "dark": "Dark",
-            "auto": "Auto"
-        },
-        "settings": "Settings",
-        "logout": "Logout",
-        "users":{
-            "title": "Users",
-            "list": "List",
-            "add": "Add"
-        },
-        "groups":{
-            "title": "Groups",
-            "my": "My Groups",
-            "list": "List",
-            "add": "Add"
-        }
+  "activationPage": {
+    "activate": "Activate",
+    "confirmPassword": "Confirm Password",
+    "error": {
+      "passwordNoLetter": "Password must contain at least one letter",
+      "passwordNoLowercase": "Password must contain at least one lowercase letter",
+      "passwordNoNumber": "Password must contain at least one number",
+      "passwordNoSpecial": "Password must contain at least one special character",
+      "passwordNoUppercase": "Password must contain at least one uppercase letter",
+      "passwordTooLong": "Password is too long (maximum 64 characters)",
+      "passwordTooShort": "Password is too short (minimum 8 characters)",
+      "passwordWhitespace": "Password cannot contain whitespace",
+      "passwordsDoNotMatch": "Passwords do not match"
     },
-    "login": {
-        "title": "Login",
-        "email": "Email",
-        "password": "Password",
-        "login": "Login",
-        "error": "Invalid username or password",
-        "forgot": "Forgot password?"
-    },
-    "table":{
-        "search": "Search",
-        "reset": "Reset",
-        "actions": "Actions",
-        "view": "View",
-        "loadMore": "Load More..."
-    },
-    "models":{
-        "client":{
-            "id": "ID",
-            "description": "Description",
-            "createdAt": "Created At",
-            "lastOnline": "Last Online",
-            "location": "Location",
-            "type": "Type",
-            "status": "Status",
-            "scanRadius": "Scan Radius",
-            "sessions": "Sessions",
-            "groups": "Groups",
-            "accessLevel": "Access Level",
-            "permissions": "Permissions"
-        },
-        "session":{
-            "id": "ID",
-            "lastUpdated": "Last Updated",
-            "lastAccessed": "Last Accessed",
-            "expiresAt": "Expires At"
-        },
-        "clientTypes": {
-            "any": "Any",
-            "user": "User",
-            "robot": "Robot"
-        },
-        "clientStatuses": {
-            "any": "Any",
-            "inactive": "Inactive",
-            "active": "Active",
-            "limited": "Limited",
-            "banned": "Banned"
-        },
-        "user":{
-            "firstName": "First Name",
-            "lastName": "Last Name",
-            "email": "Email",
-            "taxPayerId": "Tax Payer ID",
-            "nickname": "Nickname"
-        },
-        "permission":{
-            "groups":{
-                "name": "Groups",
-                "canCreate": "Can Create",
-                "canDelete": "Can Delete",
-                "canRead": "Can Read",
-                "canUpdate": "Can Update"
-            }, 
-            "robots":{
-                "name": "Robots",
-                "canCreate": "Can Create",
-                "canDelete": "Can Delete",
-                "canRead": "Can Read",
-                "canUpdate": "Can Update",
-                "canUpdateAccessLevel": "Can Update Access Level",
-                "canUpdateScanRadius": "Can Update Scan Radius",
-                "canUpdateStatus": "Can Update Status"
-            },
-            "users":{
-                "name": "Users",
-                "canCreate": "Can Create",
-                "canDelete": "Can Delete",
-                "canRead": "Can Read",
-                "canResetPassword": "Can Reset Password",
-                "canUpdate": "Can Update",
-                "canUpdateAccessLevel": "Can Update Access Level",
-                "canUpdateBaseInformation": "Can Update Base Information",
-                "canUpdateOtherUsersPassword": "Can Update Other Users Password",
-                "canUpdatePermissions": "Can Update Permissions",
-                "canUpdateScanRadius": "Can Update Scan Radius",
-                "canUpdateSelfEmail": "Can Update Self Email",
-                "canUpdateStatus": "Can Update Status"
-            }
-        },
-        "group":{
-            "ID": "ID",
-            "name": "Name",
-            "description": "Description",
-            "accessLevel": "Access Level",
-            "createdAt": "Created At",
-            "members": "Members"
-        }
-    },
-    "admin":{
-        "user":{
-            "scanRadius":{
-                "description": "Scan Radius in meters"
-            },
-            "accessLevel":{
-                "description": "From 1 to 999. 1 is the lowest access level, 999 is the highest"
-            }
-        }
-    },
-    "editUser": {
-        "basicInfo": "Basic Info",
-        "actions": {
-            "title": "Actions",
-            "resetPassword": "Reset Password"
-        }
-    },
-    "activationPage":{
-        "title": "Activate your account",
-        "welcome": "Welcome,",
-        "newPassword": "New Password",
-        "confirmPassword": "Confirm Password",
-        "activate": "Activate",
-        "error": {
-            "passwordsDoNotMatch": "Passwords do not match",
-            "passwordTooShort": "Password is too short (minimum 8 characters)",
-            "passwordTooLong": "Password is too long (maximum 64 characters)",
-            "passwordNoNumber": "Password must contain at least one number",
-            "passwordNoLetter": "Password must contain at least one letter",
-            "passwordNoSpecial": "Password must contain at least one special character",
-            "passwordNoUppercase": "Password must contain at least one uppercase letter",
-            "passwordNoLowercase": "Password must contain at least one lowercase letter",
-            "passwordWhitespace": "Password cannot contain whitespace"
-        }
-    },
-    "viewGroup": {
-        "members": {
-            "list": "Members"
-        },
-        "setArea": "Set Area"
-    },
-    "userList":{
-        "confirmSelection": "Confirm Selection"
-    },
-    "userSettings":{
-        "emailChanged": "See your email to confirm the changes."
-    },
-    "groupMemberList":{
-        "add": "Add Member"
-    },
-    "map":{
-        "confirmBox": {
-            "title": "Confirm",
-            "message": "Are you sure?"
-        }
-    },
-    "mapSettings":{
-        "groups": "Groups"
-    },
-    "buttons":{
-        "save": "Save",
-        "confirm": "Confirm",
-        "cancel": "Cancel",
-        "create": "Create",
-        "delete": "Delete",
-        "edit": "Edit",
-        "view": "View",
-        "add": "Add",
-        "back": "Back",
-        "login": "Login",
-        "logout": "Logout",
-        "activate": "Activate",
-        "reset": "Reset",
-        "send": "Send",
-        "close": "Close"
+    "newPassword": "New Password",
+    "title": "Activate your account",
+    "welcome": "Welcome,"
+  },
+  "admin": {
+    "user": {
+      "accessLevel": {
+        "description": "From 1 to 999. 1 is the lowest access level, 999 is the highest"
+      },
+      "scanRadius": {
+        "description": "Scan Radius in meters"
+      }
     }
+  },
+  "buttons": {
+    "activate": "Activate",
+    "add": "Add",
+    "back": "Back",
+    "cancel": "Cancel",
+    "close": "Close",
+    "confirm": "Confirm",
+    "create": "Create",
+    "delete": "Delete",
+    "edit": "Edit",
+    "login": "Login",
+    "logout": "Logout",
+    "reset": "Reset",
+    "save": "Save",
+    "send": "Send",
+    "view": "View"
+  },
+  "editUser": {
+    "actions": {
+      "resetPassword": "Reset Password",
+      "title": "Actions"
+    },
+    "basicInfo": "Basic Info"
+  },
+  "groupMemberList": {
+    "add": "Add Member"
+  },
+  "login": {
+    "email": "Email",
+    "error": "Invalid username or password",
+    "forgot": "Forgot password?",
+    "login": "Login",
+    "password": "Password",
+    "title": "Login"
+  },
+  "map": {
+    "confirmBox": {
+      "message": "Are you sure?",
+      "title": "Confirm"
+    }
+  },
+  "mapSettings": {
+    "groups": "Groups",
+    "marker": {
+      "description": "Description",
+      "name": "Name",
+      "title": "Marker"
+    },
+    "selectGroup": {
+      "selectGroup": "Group",
+      "title": "Select Group"
+    }
+  },
+  "models": {
+    "client": {
+      "accessLevel": "Access Level",
+      "createdAt": "Created At",
+      "description": "Description",
+      "groups": "Groups",
+      "id": "ID",
+      "lastOnline": "Last Online",
+      "location": "Location",
+      "permissions": "Permissions",
+      "scanRadius": "Scan Radius",
+      "sessions": "Sessions",
+      "status": "Status",
+      "type": "Type"
+    },
+    "clientStatuses": {
+      "active": "Active",
+      "any": "Any",
+      "banned": "Banned",
+      "inactive": "Inactive",
+      "limited": "Limited"
+    },
+    "clientTypes": {
+      "any": "Any",
+      "robot": "Robot",
+      "user": "User"
+    },
+    "group": {
+      "ID": "ID",
+      "accessLevel": "Access Level",
+      "createdAt": "Created At",
+      "description": "Description",
+      "members": "Members",
+      "name": "Name"
+    },
+    "permission": {
+      "groups": {
+        "canCreate": "Can Create",
+        "canDelete": "Can Delete",
+        "canRead": "Can Read",
+        "canUpdate": "Can Update",
+        "name": "Groups"
+      },
+      "robots": {
+        "canCreate": "Can Create",
+        "canDelete": "Can Delete",
+        "canRead": "Can Read",
+        "canUpdate": "Can Update",
+        "canUpdateAccessLevel": "Can Update Access Level",
+        "canUpdateScanRadius": "Can Update Scan Radius",
+        "canUpdateStatus": "Can Update Status",
+        "name": "Robots"
+      },
+      "users": {
+        "canCreate": "Can Create",
+        "canDelete": "Can Delete",
+        "canRead": "Can Read",
+        "canResetPassword": "Can Reset Password",
+        "canUpdate": "Can Update",
+        "canUpdateAccessLevel": "Can Update Access Level",
+        "canUpdateBaseInformation": "Can Update Base Information",
+        "canUpdateOtherUsersPassword": "Can Update Other Users Password",
+        "canUpdatePermissions": "Can Update Permissions",
+        "canUpdateScanRadius": "Can Update Scan Radius",
+        "canUpdateSelfEmail": "Can Update Self Email",
+        "canUpdateStatus": "Can Update Status",
+        "name": "Users"
+      }
+    },
+    "session": {
+      "expiresAt": "Expires At",
+      "id": "ID",
+      "lastAccessed": "Last Accessed",
+      "lastUpdated": "Last Updated"
+    },
+    "user": {
+      "email": "Email",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "nickname": "Nickname",
+      "taxPayerId": "Tax Payer ID"
+    }
+  },
+  "navigation": {
+    "groups": {
+      "add": "Add",
+      "list": "List",
+      "my": "My Groups",
+      "title": "Groups"
+    },
+    "logout": "Logout",
+    "settings": "Settings",
+    "theme": {
+      "auto": "Auto",
+      "dark": "Dark",
+      "light": "Light"
+    },
+    "users": {
+      "add": "Add",
+      "list": "List",
+      "title": "Users"
+    },
+    "robots":{
+      "add": "Add",
+      "list": "List",
+      "title": "Robots"
+    }
+  },
+  "table": {
+    "actions": "Actions",
+    "loadMore": "Load More...",
+    "reset": "Reset",
+    "search": "Search",
+    "view": "View"
+  },
+  "userList": {
+    "confirmSelection": "Confirm Selection"
+  },
+  "userSettings": {
+    "emailChanged": "See your email to confirm the changes."
+  },
+  "viewGroup": {
+    "members": {
+      "list": "Members"
+    },
+    "setArea": "Set Area"
+  }
 }

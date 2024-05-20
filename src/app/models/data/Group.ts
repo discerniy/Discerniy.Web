@@ -8,6 +8,7 @@ export class Group {
     accessLevel: number = 0;
     memberCount: number = 0;
     responsibilityArea: GeoCoordinates[] = [];
+    markers: string[] = [];
 }
 
 export class GroupDetail extends Group {

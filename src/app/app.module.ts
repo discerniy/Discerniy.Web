@@ -28,6 +28,11 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { NgbAlertModule, NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { AlertsService } from './services/alerts.service';
 import { AuthApiService } from './services/auth-api.service';
+import { GroupApiService } from './services/group-api.service';
+import { MarkerApiService } from './services/marker-api.service';
+import { UserApiService } from './services/user-api.service';
+import { ResourceService } from './services/resource.service';
+import { SignalRService } from './services/signal-r.service';
 
 @NgModule({
   declarations: [
@@ -59,7 +64,8 @@ import { AuthApiService } from './services/auth-api.service';
     NgbModule,
     NgbPaginationModule, NgbAlertModule
   ],
-  providers: [AuthGuard, PermissionGuard, AlertsService, AuthApiService],
+  providers: [AuthGuard, PermissionGuard, AlertsService, ResourceService, SignalRService,
+    AuthApiService, GroupApiService, MarkerApiService, UserApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -12,3 +12,7 @@
 .polygon-point-icon.selected {
     filter: invert(71%) sepia(72%) saturate(669%) hue-rotate(329deg) brightness(105%) contrast(92%);
 }
+
+.crosshair-cursor-enabled{
+    cursor: crosshair!important;
+}

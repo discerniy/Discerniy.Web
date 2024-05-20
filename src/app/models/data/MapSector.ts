@@ -123,9 +123,6 @@ export class MapSector {
             this.polygon = L.polygon([[point.lat, point.lng]]);
             if (this.visible) {
                 this.polygon.addTo(this.map);
-                this.polygon.bindPopup(() => {
-                    return `Name: ${this.name}<br>Area: ${this.area} m<sup>2</sup>`;
-                });
             }
         }
     }
