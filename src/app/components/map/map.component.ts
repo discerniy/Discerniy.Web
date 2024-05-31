@@ -10,6 +10,7 @@ import { MapSignalREvents } from './map.signalrEvents';
 import { GroupApiService } from 'src/app/services/group-api.service';
 import { MarkerApiService } from 'src/app/services/marker-api.service';
 import { Group } from 'src/app/models/data/Group';
+import { UserResponseDetailed } from 'src/app/models/responses/user-response';
 
 type Marker = { [key: string]: L.Marker };
 
@@ -35,7 +36,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   public returnTo = '';
 
-  public user: User = new User();
+  public user: UserResponseDetailed = new UserResponseDetailed();
   public init: boolean = false;
   public map!: L.Map;
   public mode: 'select' | 'view' = 'view';
@@ -64,7 +65,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     private markerService: MarkerApiService) {
 
     this.userService.getSelfDetailed().then(user => {
-      this.user = User.fromResponse(user);
+      this.user = user;
     });
 
     this.route.queryParams.subscribe(params => {
@@ -95,43 +96,22 @@ export class MapComponent implements OnInit, AfterViewInit {
     await this.signalR.connect();
     console.log('ngAfterViewInit');
     this.signalR.on('NearClients', this.handleNearClients.bind(this));
-
-    setInterval(() => {
-      this.signalR.updateLocation({
-        easting: this.meLocation.getLatLng().lng || 0,
-        northing: this.meLocation.getLatLng().lat || 0,
-        compass: this.compass || 0
-      })?.catch(err => console.error(err));
-    }, 1000);
+    this.signalR.on('LocationUpdated', this.handleLocationUpdated.bind(this));
 
     this.initializeMap();
-    this.getMeLocation();
     this.centerMap();
     this.signalR.eventHandler.setMap(this.map);
     this.signalR.eventHandler.init();
-    
+
     this.groupService.getMyGroups().then(groups => {
       this.loadMarkers(groups);
     });
 
+    this.getMeLocation();
+
     this.map.addEventListener('click', this.handleMouseClick.bind(this));
     this.map.addEventListener('keydown', this.handleKeyDown.bind(this));
 
-  }
-
-  @HostListener('window:deviceorientationabsolute', ['$event'])
-  onDeviceOrientation(event: DeviceOrientationEvent) {
-    if (event.alpha !== null) {
-      this.compass = Math.abs(event.alpha - 360);
-      if (this.compass !== null) {
-        let element = this.meLocation.getElement();
-        if (element) {
-          element.style.transformOrigin = 'center';
-          let parts = element.style.transform.match(/translate3d\(([\d-]+)px, ([\d-]+)px, ([\d-]+)px\)/);
-          element.style.transform = `${parts?.[0]} rotate(${this.compass}deg)`;
-        }
-      }
-    }
   }
 
   public confirm() {
@@ -161,6 +141,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   private initializeMap() {
     const baseMapURl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+    // const baseMapURl = 'https://localhost:7223/{z}/{x}/{y}.png'
     this.map = L.map('map');
     L.tileLayer(baseMapURl).addTo(this.map);
     this.map.zoomControl.setPosition('bottomright');
@@ -176,22 +157,14 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   private getMeLocation() {
     this.meLocation.addTo(this.map);
-    navigator.geolocation.watchPosition((position) => {
-      let latitude = this.debug.enabled ? this.debug.coords.lat : position.coords.latitude;
-      let longitude = this.debug.enabled ? this.debug.coords.lng : position.coords.longitude;
-
-      this.meLocation.setLatLng([latitude, longitude]);
-
-      if (this.config.subscribeToMeLocation || this.init === false) {
-        let zoom = this.map.getZoom();
-        this.map.setView(this.meLocation.getLatLng(), zoom);
-        this.init = true;
-      }
-    });
+    this.meLocation.bindPopup(`<b>${this.user.nickname}</b>`);
+    this.meLocation.setLatLng([this.user.location.northing, this.user.location.easting])
+    let zoom = this.map.getZoom();
+    this.map.setView(this.meLocation.getLatLng(), zoom);
+    this.init = true;
   }
 
   private handleNearClients(nearClients: NearClient[]) {
-
     Object.keys(this.nearClients).forEach(key => {
       if (nearClients.find(nearClient => nearClient.id === key) === undefined) {
         this.nearClients[key].removeFrom(this.map);
@@ -230,6 +203,22 @@ export class MapComponent implements OnInit, AfterViewInit {
         element.style.transform = `${parts?.[0]} rotate(${nearClient.compass}deg)`;
       }
     });
+  }
+
+  private handleLocationUpdated(selfPos: NearClient) {
+    console.log('LocationUpdated', selfPos);
+    this.meLocation.setLatLng([selfPos.northing, selfPos.easting]);
+    if (this.config.subscribeToMeLocation) {
+      let zoom = this.map.getZoom();
+      this.map.setView(this.meLocation.getLatLng(), zoom);
+    }
+
+    let element = this.meLocation.getElement();
+    if (element) {
+      element.style.transformOrigin = 'center';
+      let parts = element.style.transform.match(/translate3d\(([\d-]+)px, ([\d-]+)px, ([\d-]+)px\)/);
+      element.style.transform = `${parts?.[0]} rotate(${selfPos.compass}deg)`;
+    }
   }
 
   private handleMouseClick(e: L.LeafletMouseEvent) {

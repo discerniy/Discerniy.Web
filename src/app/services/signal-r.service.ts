@@ -67,10 +67,6 @@ export class SignalRService {
     this.connection?.off(methodName, method);
   }
 
-  public updateLocation(location: GeoCoordinates) {
-    return this.invoke('UpdateLocation', location);
-  }
-
   public invoke(methodName: string, ...args: any[]) {
     if (!this.isConnected) {
       return Promise.reject('SignalR is not connected');

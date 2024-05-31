@@ -1,6 +1,6 @@
 import { ClientStatus, ClientType } from "../data/Client";
 import { ClientPermissions } from "../data/ClientPermission";
-import { User } from "../data/User";
+import { GeoCoordinates } from "../data/GeoCoordinates";
 
 export class UserResponse {
     id: string = '';
@@ -21,4 +21,5 @@ export class UserResponseDetailed extends UserResponse {
     accessLevel: number = 0;
     scanRadius: number = 0;
     description: string = '';
+    location: GeoCoordinates = new GeoCoordinates();
 }
