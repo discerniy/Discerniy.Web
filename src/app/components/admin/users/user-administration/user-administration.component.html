@@ -30,7 +30,7 @@
                     [disabled]="isSelfUser || !currentUser.permissions.users.canUpdateBaseInformation" />
             </div>
             <div>
-                <label class="form-label">{{'models.user.nickname' | translate}}<i class="required"></i></label>
+                <label class="form-label">{{'models.client.nickname' | translate}}<i class="required"></i></label>
                 <input class="form-control" type="text" name="nickname" [(ngModel)]="userModel.nickname"
                     [disabled]="isSelfUser || !currentUser.permissions.users.canUpdateBaseInformation" />
             </div>

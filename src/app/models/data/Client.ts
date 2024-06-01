@@ -22,6 +22,7 @@ export class ClientSession {
 
 export class Client{
     id: string = '';
+    nickname: string = '';
     description: string = '';
     createdAt: Date = new Date();
     lastOnline: Date = new Date();

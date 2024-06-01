@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { SearchFilter, TableColumn, TableRecord, TableRecordAction } from '../../../table/table.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserApiService } from 'src/app/services/user-api.service';
+import { SearchFilter, TableColumn, TableRecord, TableRecordAction } from 'src/app/components/table/table.component';
 import { ClientStatus } from 'src/app/models/data/Client';
+import { RobotApiService } from 'src/app/services/robot-api.service';
+import { UserApiService } from 'src/app/services/user-api.service';
 
 @Component({
-  selector: 'app-user-list-administration',
-  templateUrl: './user-list-administration.component.html',
-  styleUrls: ['./user-list-administration.component.css']
+  selector: 'app-robot-list-administration',
+  templateUrl: './robot-list-administration.component.html',
+  styleUrls: ['./robot-list-administration.component.css']
 })
-export class UserListAdministrationComponent implements OnInit {
+export class RobotListAdministrationComponent implements OnInit {
   public selectMode = {
     enabled: false,
     selected: [] as string[],
@@ -23,20 +24,13 @@ export class UserListAdministrationComponent implements OnInit {
   public page: number = 1;
   public limit: number = 10;
   public columns: TableColumn[] = [
-    { name: 'models.user.firstName', type: 'string' },
-    { name: 'models.user.lastName', type: 'string' },
     { name: 'models.client.nickname', type: 'string' },
-    { name: 'models.user.email', type: 'string' },
-    { name: 'models.user.taxPayerId', type: 'string' },
     { name: 'models.client.accessLevel', type: 'number' },
     { name: 'models.client.status', type: 'string', translate: true }
   ];
 
   public searchFilters: SearchFilter[] = [
-    { column: 'models.user.firstName', type: 'string', value: '' },
-    { column: 'models.user.lastName', type: 'string', value: '' },
-    { column: 'models.user.email', type: 'string', value: '' },
-    { column: 'models.user.taxPayerId', type: 'string', value: '' },
+    { column: 'models.client.nickname', type: 'string', value: '' },
     { column: 'models.client.accessLevel', type: 'number', value: 0 },
     {
       column: 'models.client.status', type: 'select', value: -1, selectOptions: [
@@ -60,7 +54,7 @@ export class UserListAdministrationComponent implements OnInit {
 
   public data: TableRecord[] = [];
 
-  constructor(private router: Router, private userApi: UserApiService, private activatedRoute: ActivatedRoute) {
+  constructor(private router: Router, private userApi: UserApiService, private robotApi: RobotApiService, private activatedRoute: ActivatedRoute) {
     this.activatedRoute.queryParams.subscribe(param => {
       this.selectMode.enabled = param['selectMode'] == 'true';
       this.selectMode.multiple = param['multiple'] == 'true';
@@ -87,7 +81,7 @@ export class UserListAdministrationComponent implements OnInit {
   }
 
   public onViewInfo(id: string) {
-    this.router.navigate(['/home/admin/users', id]);
+    this.router.navigate(['/home/admin/robots', id]);
   }
 
   public onSearch(filters: SearchFilter[]) {
@@ -119,23 +113,20 @@ export class UserListAdministrationComponent implements OnInit {
     let query = {
       page: this.page,
       limit: this.limit,
-      firstName: this.searchFilters.find(f => f.column == 'models.user.firstName')?.value as string,
-      lastName: this.searchFilters.find(f => f.column == 'models.user.lastName')?.value as string,
-      email: this.searchFilters.find(f => f.column == 'models.user.email')?.value as string,
-      taxPayerId: this.searchFilters.find(f => f.column == 'models.user.taxPayerId')?.value as string,
       accessLevel: this.searchFilters.find(f => f.column == 'models.client.accessLevel')?.value as number,
+      nickname: this.searchFilters.find(f => f.column == 'models.client.nickname')?.value as string,
       status: status
     };
 
-    this.userApi.getUsers(query).then(users => {
-      this.data = users.items.map(user => {
-        let status = 'models.clientStatuses.' + ClientStatus[user.status].toLowerCase();
+    this.robotApi.getRobots(query).then(robots => {
+      this.data = robots.items.map(robot => {
+        let status = 'models.clientStatuses.' + ClientStatus[robot.status].toLowerCase();
         return {
-          id: user.id,
-          values: [user.firstName, user.lastName, user.nickname, user.email, user.taxPayerId, user.accessLevel, status],
+          id: robot.id,
+          values: [robot.nickname, robot.accessLevel, status],
           data: {
             'table.select': {
-              checked: this.selectMode.selected.includes(user.id) || this.selectMode.defaultSelected.includes(user.id)
+              checked: this.selectMode.selected.includes(robot.id) || this.selectMode.defaultSelected.includes(robot.id)
             }
           }
         };

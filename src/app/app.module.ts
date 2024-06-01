@@ -33,6 +33,8 @@ import { MarkerApiService } from './services/marker-api.service';
 import { UserApiService } from './services/user-api.service';
 import { ResourceService } from './services/resource.service';
 import { SignalRService } from './services/signal-r.service';
+import { RobotListAdministrationComponent } from './components/admin/robots/robot-list-administration/robot-list-administration.component';
+import { RobotAdministrationComponent } from './components/admin/robots/robot-administration/robot-administration.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { SignalRService } from './services/signal-r.service';
     UserSettingsComponent,
     UserListAdministrationComponent,
     UserAdministrationComponent,
+    RobotListAdministrationComponent,
+    RobotAdministrationComponent,
     ActivationPageComponent,
     ViewGroupComponent,
     GroupListComponent,

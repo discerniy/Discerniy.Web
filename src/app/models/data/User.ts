@@ -5,7 +5,6 @@ export class User extends Client {
     firstName: string = '';
     lastName: string = '';
     taxPayerId: string = '';
-    nickname: string = '';
     email: string = '';
     password: string = '';
     needPasswordChange: boolean = true;

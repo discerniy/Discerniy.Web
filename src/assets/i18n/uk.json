@@ -83,6 +83,7 @@
   "models": {
     "client": {
       "accessLevel": "Рівень доступу",
+      "nickname": "Позивний",
       "createdAt": "Створено",
       "description": "Опис",
       "groups": "Групи",
@@ -135,6 +136,7 @@
       },
       "users": {
         "canCreate": "Може створювати",
+        "canCreateDeviceToken": "Може створювати токен пристрою",
         "canDelete": "Може видаляти",
         "canRead": "Може читати",
         "canResetPassword": "Може скидати пароль",
@@ -158,8 +160,10 @@
       "email": "Електронна пошта",
       "firstName": "Ім'я",
       "lastName": "Прізвище",
-      "nickname": "Позивний",
       "taxPayerId": "РНОКПП (ІПН)"
+    },
+    "robot":{
+      "groupId": "Група"
     }
   },
   "navigation": {

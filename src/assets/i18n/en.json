@@ -83,6 +83,7 @@
   "models": {
     "client": {
       "accessLevel": "Access Level",
+      "nickname": "Nickname",
       "createdAt": "Created At",
       "description": "Description",
       "groups": "Groups",
@@ -135,6 +136,7 @@
       },
       "users": {
         "canCreate": "Can Create",
+        "canCreateDeviceToken": "Can Create Device Token",
         "canDelete": "Can Delete",
         "canRead": "Can Read",
         "canResetPassword": "Can Reset Password",
@@ -159,8 +161,10 @@
       "email": "Email",
       "firstName": "First Name",
       "lastName": "Last Name",
-      "nickname": "Nickname",
       "taxPayerId": "Tax Payer ID"
+    },
+    "robot":{
+      "groupId": "Selected Group"
     }
   },
   "navigation": {

@@ -15,6 +15,7 @@ export class UsersInteractionPermissions{
     public canUpdatePermissions: boolean = false;
     public canRead: boolean = false;
     public canCreate: boolean = false;
+    public canCreateDeviceToken: boolean = false;
 }
 
 export class RobotsInteractionPermissions{

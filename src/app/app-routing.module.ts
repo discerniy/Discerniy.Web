@@ -13,6 +13,8 @@ import { ViewGroupComponent } from './components/group/view-group/view-group.com
 import { GroupListComponent } from './components/group/group-list/group-list.component';
 import { GroupMemberListComponent } from './components/group/group-member-list/group-member-list.component';
 import { ConfirmPageComponent } from './components/confirm-page/confirm-page.component';
+import { RobotAdministrationComponent } from './components/admin/robots/robot-administration/robot-administration.component';
+import { RobotListAdministrationComponent } from './components/admin/robots/robot-list-administration/robot-list-administration.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -29,9 +31,21 @@ const routes: Routes = [
         },
         {
           path: 'admin', children: [
-            { path: 'users/new', component: UserAdministrationComponent, canActivate: [PermissionGuard], data: { ...PermissionGuard.has((p) => p.users.canCreate), mode: 'CREATE' } },
-            { path: 'users/:id', component: UserAdministrationComponent, canActivate: [PermissionGuard], data: { ...PermissionGuard.has((p) => p.users.canRead), mode: 'VIEW' } },
-            { path: 'users', component: UserListAdministrationComponent, canActivate: [PermissionGuard], data: PermissionGuard.has((p) => p.users.canRead) }
+            {
+              path: 'users', children: [
+                { path: 'new', component: UserAdministrationComponent, canActivate: [PermissionGuard], data: { ...PermissionGuard.has((p) => p.users.canCreate), mode: 'CREATE' } },
+                { path: ':id', component: UserAdministrationComponent, canActivate: [PermissionGuard], data: { ...PermissionGuard.has((p) => p.users.canRead), mode: 'VIEW' } },
+                { path: '', component: UserListAdministrationComponent, canActivate: [PermissionGuard], data: PermissionGuard.has((p) => p.users.canRead) }
+              ]
+            },
+            {
+              path: 'robots', children: [
+                { path: 'new', component: RobotAdministrationComponent, canActivate: [PermissionGuard], data: { ...PermissionGuard.has((p) => p.robots.canCreate), mode: 'CREATE' } },
+                { path: ':id', component: RobotAdministrationComponent, canActivate: [PermissionGuard], data: { ...PermissionGuard.has((p) => p.robots.canRead), mode: 'VIEW' } },
+                { path: '', component: RobotListAdministrationComponent, canActivate: [PermissionGuard], data: PermissionGuard.has((p) => p.robots.canRead) }
+              ]
+            }
+
           ]
         },
         {
