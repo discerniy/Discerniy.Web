@@ -34,8 +34,23 @@ export class AuthApiService extends BaseApi {
         this.token = null;
     }
 
-    register(data: RegisterRequest) {
-        return this.post<UserResponse>('register', data);
+    async downloadDeviceConfig(id: string) {
+        let response = await this.get(`device/token?userId=${id}`);
+        if (response.ok) {
+            let a = document.createElement('a');
+            a.style.display = 'none';
+            let blob = new Blob([JSON.stringify(response.body)], { type: 'application/json' });
+            a.href = URL.createObjectURL(blob);
+            a.download = `device_${id}.json`;
+
+            document.body.appendChild(a);
+            a.click();
+
+            document.body.removeChild(a);
+            return Promise.resolve();
+        } else {
+            return Promise.reject(response);
+        }
     }
 
     refreshToken() {

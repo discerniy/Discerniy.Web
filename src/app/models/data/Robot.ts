@@ -1,8 +1,18 @@
 import { RobotResponse } from "../responses/robot-response";
-import { Client } from "./Client";
+import { ClientStatus, ClientType } from "./Client";
 import { GeoCoordinates } from "./GeoCoordinates";
 
-export class Robot extends Client{
+export class Robot {
+    id: string = '';
+    nickname: string = '';
+    description: string = '';
+    createdAt: Date = new Date();
+    lastOnline: Date = new Date();
+    location: GeoCoordinates = new GeoCoordinates();
+    type: ClientType = ClientType.Robot;
+    status: ClientStatus = ClientStatus.Inactive;
+    scanRadius: number = 0;
+    accessLevel: number = 0;
     groupId: string = '';
     static fromResponse(response: RobotResponse): Robot {
         let robot = new Robot();

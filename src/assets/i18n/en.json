@@ -200,7 +200,9 @@
     "view": "View"
   },
   "userList": {
-    "confirmSelection": "Confirm Selection"
+    "confirmSelection": "Confirm Selection",
+    "downloadDeviceConfig": "Download Device Config",
+    "downloadDeviceConfigFailed": "Failed to download device config"
   },
   "userSettings": {
     "emailChanged": "See your email to confirm the changes."

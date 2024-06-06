@@ -3,6 +3,8 @@ import { SearchFilter, TableColumn, TableRecord, TableRecordAction } from '../..
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserApiService } from 'src/app/services/user-api.service';
 import { ClientStatus } from 'src/app/models/data/Client';
+import { AuthApiService } from 'src/app/services/auth-api.service';
+import { Alert, AlertsService } from 'src/app/services/alerts.service';
 
 @Component({
   selector: 'app-user-list-administration',
@@ -60,7 +62,7 @@ export class UserListAdministrationComponent implements OnInit {
 
   public data: TableRecord[] = [];
 
-  constructor(private router: Router, private userApi: UserApiService, private activatedRoute: ActivatedRoute) {
+  constructor(private router: Router, private userApi: UserApiService, public authApi: AuthApiService, private activatedRoute: ActivatedRoute, private alertsService: AlertsService) {
     this.activatedRoute.queryParams.subscribe(param => {
       this.selectMode.enabled = param['selectMode'] == 'true';
       this.selectMode.multiple = param['multiple'] == 'true';
@@ -80,6 +82,16 @@ export class UserListAdministrationComponent implements OnInit {
     if (selectedUsers) {
       this.selectMode.defaultSelected = selectedUsers;
     }
+    this.userApi.getSelf().then(response => {
+      if(response.permissions.users.canCreateDeviceToken){
+        this.tableActions.push(    {
+          name: 'userList.downloadDeviceConfig',
+          style: 'info',
+          type: 'button',
+          event: this.downloadDeviceConfig.bind(this)
+        });
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -149,5 +161,12 @@ export class UserListAdministrationComponent implements OnInit {
 
   public confirm() {
     this.router.navigate([this.returnTo], { state: { selected: this.selectMode.selected, deleted: this.selectMode.deleted } });
+  }
+
+  private downloadDeviceConfig(id: string){
+    this.authApi.downloadDeviceConfig(id).then(() => {
+    }).catch(() => {
+      this.alertsService.add(new Alert('danger', 'userList.downloadDeviceConfigFailed'));
+    });
   }
 }

@@ -199,7 +199,9 @@
     "view": "Переглянути"
   },
   "userList": {
-    "confirmSelection": "Підтвердити вибір"
+    "confirmSelection": "Підтвердити вибір",
+    "downloadDeviceConfig": "Завантажити конфігурацію пристрою",
+    "downloadDeviceConfigFailed": "Не вдалося завантажити конфігурацію пристрою"
   },
   "userSettings": {
     "emailChanged": "Підтвердження зміни електронної пошти було відправлено на нову адресу"

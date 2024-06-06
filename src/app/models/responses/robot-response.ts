@@ -13,7 +13,6 @@ export class RobotResponse {
     nickname: string = '';
     createdAt: Date = new Date();
     type: ClientType = ClientType.Robot;
-    permissions: ClientPermissions = new ClientPermissions();
     updateLocationSecondsInterval: number = 0;
     status: ClientStatus = ClientStatus.Inactive;
     scanRadius: number = 0;

@@ -36,10 +36,6 @@ export class RobotApiService extends BaseApi {
     return this.toDataResponse(this.put<RobotResponse>(`${id}/status`, Number(status)));
   }
 
-  async updatePermissions(id: string, permissions: ClientPermissions): Promise<RobotResponse> {
-    return this.toDataResponse(this.put<RobotResponse>(`${id}/permissions`, permissions));
-  }
-
   async updateAccessLevel(id: string, accessLevel: number): Promise<RobotResponse> {
     return this.toDataResponse(this.put<RobotResponse>(`${id}/accessLevel`, accessLevel));
   }

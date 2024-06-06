@@ -31,18 +31,13 @@ export class RobotAdministrationComponent {
   public get isSelfUser(): boolean {
     return this.robotModel.id == this.currentUser.id;
   }
-
-  public get permissions(): any {
-    return this.robotModel.permissions as any;
-  }
-
+  
   public get currentUser(): UserResponse {
     return this.userApi.user;
   }
 
   private oldRobot = {
     baseInformation: '',
-    permissions: '',
     accessLevel: '',
     scanRadius: '',
     status: ''
@@ -76,7 +71,6 @@ export class RobotAdministrationComponent {
           nickname: this.robotModel.nickname,
           description: this.robotModel.description
         });
-        this.oldRobot.permissions = JSON.stringify(this.robotModel.permissions);
         this.oldRobot.accessLevel = JSON.stringify(this.robotModel.accessLevel);
         this.oldRobot.scanRadius = JSON.stringify(this.robotModel.scanRadius);
         this.oldRobot.status = JSON.stringify(this.robotModel.status);
@@ -124,10 +118,6 @@ export class RobotAdministrationComponent {
       description: this.robotModel.description
     })) {
       taskStack.push(this.robotApi.update(this.robotModel));
-    }
-
-    if (this.currentUser.permissions.users.canUpdatePermissions && this.oldRobot.permissions != JSON.stringify(this.robotModel.permissions)) {
-      taskStack.push(this.robotApi.updatePermissions(this.robotModel.id, this.robotModel.permissions));
     }
 
     if (this.currentUser.permissions.users.canUpdateAccessLevel && this.oldRobot.accessLevel != JSON.stringify(this.robotModel.accessLevel)) {

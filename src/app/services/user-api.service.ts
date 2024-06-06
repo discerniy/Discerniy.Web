@@ -58,7 +58,7 @@ export class UserApiService extends BaseApi {
   }
 
   async updateStatus(id: string, status: ClientStatus): Promise<UserResponseDetailed> {
-    return this.toDataResponse(this.put<UserResponseDetailed>(`${id}/status`, status));
+    return this.toDataResponse(this.put<UserResponseDetailed>(`${id}/status`, Number(status)));
   }
 
   async updatePassword(id: string, password: string): Promise<UserResponseDetailed> {
