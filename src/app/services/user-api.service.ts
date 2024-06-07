@@ -65,6 +65,10 @@ export class UserApiService extends BaseApi {
     return this.toDataResponse(this.put<UserResponseDetailed>(`${id}/password`, password));
   }
 
+  async changePassword(oldPassword: string, newPassword: string): Promise<UserResponseDetailed> {
+    return this.toDataResponse(this.put<UserResponseDetailed>('self/password', { oldPassword, newPassword }));
+  }
+
   async updatePermissions(id: string, permissions: ClientPermissions): Promise<UserResponseDetailed> {
     return this.toDataResponse(this.put<UserResponseDetailed>(`${id}/permissions`, permissions));
   }

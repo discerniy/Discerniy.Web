@@ -15,6 +15,9 @@ export class UserSettingsComponent {
 
   oldEmail: string = '';
 
+  oldPassword: string = '';
+  newPassword: string = '';
+
   constructor(private userApi: UserApiService, private router: Router, private alertsService: AlertsService) {
     this.userApi.getSelfDetailed().then(user => {
       this.userModel = User.fromResponse(user);

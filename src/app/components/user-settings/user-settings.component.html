@@ -12,7 +12,7 @@
                     [disabled]="true" />
             </div>
             <div>
-                <label class="form-label">{{'models.user.nickname' | translate}}</label>
+                <label class="form-label">{{'models.client.nickname' | translate}}</label>
                 <input class="form-control" type="text" name="nickname" [(ngModel)]="userModel.nickname"
                     [disabled]="true" />
             </div>
@@ -36,6 +36,8 @@
                 <label class="form-label">{{'models.client.status' | translate}}: {{'models.clientStatuses.' +
                     statusToText() | translate}}</label>
             </div>
+            <button class="btn btn-primary" type="button" [routerLink]="['/home/user/changePassword']">{{'buttons.changePassword' |
+                translate}}</button>
         </div>
     </form>
     <div class="d-flex justify-content-center buttons">

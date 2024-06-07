@@ -1,6 +1,10 @@
 {
   "activationPage": {
     "activate": "Activate",
+    "alert":{
+      "passwordChanged": "Password changed successfully",
+      "passwordChangeFailed": "Password change failed"
+    },
     "confirmPassword": "Confirm Password",
     "error": {
       "passwordNoLetter": "Password must contain at least one letter",
@@ -14,6 +18,7 @@
       "passwordsDoNotMatch": "Passwords do not match"
     },
     "newPassword": "New Password",
+    "oldPassword": "Old Password",
     "title": "Activate your account",
     "welcome": "Welcome,"
   },
@@ -27,11 +32,18 @@
       }
     }
   },
+  "alert": {
+    "confirm": {
+      "error": "Action confirmation error.",
+      "success": "Action confirmation is successful!"
+    }
+  },
   "buttons": {
     "activate": "Activate",
     "add": "Add",
     "back": "Back",
     "cancel": "Cancel",
+    "changePassword": "Change Password",
     "close": "Close",
     "confirm": "Confirm",
     "create": "Create",
@@ -83,13 +95,13 @@
   "models": {
     "client": {
       "accessLevel": "Access Level",
-      "nickname": "Nickname",
       "createdAt": "Created At",
       "description": "Description",
       "groups": "Groups",
       "id": "ID",
       "lastOnline": "Last Online",
       "location": "Location",
+      "nickname": "Nickname",
       "permissions": "Permissions",
       "scanRadius": "Scan Radius",
       "sessions": "Sessions",
@@ -151,6 +163,9 @@
         "name": "Users"
       }
     },
+    "robot": {
+      "groupId": "Selected Group"
+    },
     "session": {
       "expiresAt": "Expires At",
       "id": "ID",
@@ -162,9 +177,6 @@
       "firstName": "First Name",
       "lastName": "Last Name",
       "taxPayerId": "Tax Payer ID"
-    },
-    "robot":{
-      "groupId": "Selected Group"
     }
   },
   "navigation": {
@@ -175,6 +187,11 @@
       "title": "Groups"
     },
     "logout": "Logout",
+    "robots": {
+      "add": "Add",
+      "list": "List",
+      "title": "Robots"
+    },
     "settings": "Settings",
     "theme": {
       "auto": "Auto",
@@ -185,11 +202,6 @@
       "add": "Add",
       "list": "List",
       "title": "Users"
-    },
-    "robots":{
-      "add": "Add",
-      "list": "List",
-      "title": "Robots"
     }
   },
   "table": {

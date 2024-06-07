@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthApiService } from 'src/app/services/auth-api.service';
 import { Title } from '@angular/platform-browser';
 import { UserApiService } from 'src/app/services/user-api.service';
+import { Alert, AlertsService } from 'src/app/services/alerts.service';
 
 @Component({
   selector: 'app-activation-page',
@@ -11,6 +12,16 @@ import { UserApiService } from 'src/app/services/user-api.service';
   styleUrls: ['./activation-page.component.css']
 })
 export class ActivationPageComponent {
+
+  mode: 'CHANGE_PASSWORD' | 'ACTIVATE' = 'ACTIVATE';
+
+  get isChangePasswordMode(){
+    return this.mode === 'CHANGE_PASSWORD';
+  }
+
+  get isActivateMode(){
+    return this.mode === 'ACTIVATE';
+  }
 
   public passwordRequirements: {
     [key: string]: { valid: boolean }
@@ -49,10 +60,13 @@ export class ActivationPageComponent {
   public newPassword: string = "";
   public confirmPassword: string = "";
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private translate: TranslateService, private titleService: Title, private userApi: UserApiService) {
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private translate: TranslateService, private titleService: Title, private userApi: UserApiService, private alertsService: AlertsService) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.email = params['email'];
       this.oldPassword = params['password'];
+    });
+    this.activatedRoute.data.subscribe(data => {
+      this.mode = data['mode'] || 'ACTIVATE';
     });
     this.translate.onLangChange.subscribe(() => {
       let title = this.translate.instant('activationPage.title');
@@ -61,6 +75,12 @@ export class ActivationPageComponent {
   }
 
   validatePassword() {
+
+    if(this.isChangePasswordMode) {
+      if(!this.oldPassword || this.oldPassword.length < 8) {
+        return false;
+      }
+    }
 
     this.passwordRequirements['activationPage.error.passwordsDoNotMatch'].valid = this.newPassword === this.confirmPassword;
     this.passwordRequirements['activationPage.error.passwordTooShort'].valid = this.newPassword.length >= 8;
@@ -84,6 +104,14 @@ export class ActivationPageComponent {
     if(!this.validatePassword()) {
       return;
     }
+    if(this.isActivateMode) {
+      this.activateUser();
+    } else {
+      this.changePassword();
+    }
+  }
+
+  activateUser(){
     this.userApi.activate({
       email: this.email,
       newPassword: this.newPassword,
@@ -91,6 +119,16 @@ export class ActivationPageComponent {
     }).then(() => {
       this.router.navigate(['/home']);
     }).catch(() => {
+      this.router.navigate(['/home']);
+    });
+  }
+
+  changePassword(){
+    this.userApi.changePassword(this.oldPassword, this.newPassword).then(() => {
+      this.alertsService.add(new Alert('success', this.translate.instant('activationPage.alert.passwordChanged')));
+      this.router.navigate(['/home']);
+    }).catch(() => {
+      this.alertsService.add(new Alert('danger', this.translate.instant('activationPage.alert.passwordChangeFailed')));
       this.router.navigate(['/home']);
     });
   }

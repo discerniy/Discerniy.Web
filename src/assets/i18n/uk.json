@@ -1,6 +1,10 @@
 {
   "activationPage": {
     "activate": "Активувати",
+    "alert":{
+      "passwordChanged": "Пароль успішно змінено",
+      "passwordChangeFailed": "Не вдалося змінити пароль"
+    },
     "confirmPassword": "Підтвердити пароль",
     "error": {
       "passwordNoLetter": "Пароль повинен містити принаймні одну літеру",
@@ -14,6 +18,7 @@
       "passwordsDoNotMatch": "Паролі не співпадають"
     },
     "newPassword": "Новий пароль",
+    "oldPassword": "Старий пароль",
     "title": "Активація облікового запису",
     "welcome": "Ласкаво просимо,"
   },
@@ -27,11 +32,18 @@
       }
     }
   },
+  "alert": {
+    "confirm": {
+      "error": "Помилка підтвердження дії.",
+      "success": "Підтвердження дії успішне!"
+    }
+  },
   "buttons": {
     "activate": "Активувати",
     "add": "Додати",
     "back": "Назад",
     "cancel": "Скасувати",
+    "changePassword": "Змінити пароль",
     "close": "Закрити",
     "confirm": "Підтвердити",
     "create": "Створити",
@@ -83,13 +95,13 @@
   "models": {
     "client": {
       "accessLevel": "Рівень доступу",
-      "nickname": "Позивний",
       "createdAt": "Створено",
       "description": "Опис",
       "groups": "Групи",
       "id": "ID",
       "lastOnline": "Останній раз онлайн",
       "location": "Місцезнаходження",
+      "nickname": "Позивний",
       "permissions": "Дозволи",
       "scanRadius": "Радіус сканування",
       "sessions": "Сесії",
@@ -150,6 +162,9 @@
         "name": "Користувачі"
       }
     },
+    "robot": {
+      "groupId": "Група"
+    },
     "session": {
       "expiresAt": "Закінчується",
       "id": "ID",
@@ -161,9 +176,6 @@
       "firstName": "Ім'я",
       "lastName": "Прізвище",
       "taxPayerId": "РНОКПП (ІПН)"
-    },
-    "robot":{
-      "groupId": "Група"
     }
   },
   "navigation": {
@@ -174,6 +186,11 @@
       "title": "Групи"
     },
     "logout": "Вихід",
+    "robots": {
+      "add": "Додати",
+      "list": "Список",
+      "title": "Роботи"
+    },
     "settings": "Налаштування",
     "theme": {
       "auto": "Авто",
@@ -184,11 +201,6 @@
       "add": "Додати",
       "list": "Список",
       "title": "Користувачі"
-    },
-    "robots":{
-      "add": "Додати",
-      "list": "Список",
-      "title": "Роботи"
     }
   },
   "table": {

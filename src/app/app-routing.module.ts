@@ -26,7 +26,8 @@ const routes: Routes = [
         { path: 'map', component: MapComponent },
         {
           path: 'user', children: [
-            { path: 'settings', component: UserSettingsComponent }
+            { path: 'settings', component: UserSettingsComponent },
+            { path: 'changePassword', component: ActivationPageComponent, data: { mode: 'CHANGE_PASSWORD' } }
           ]
         },
         {
