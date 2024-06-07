@@ -1,9 +1,9 @@
 {
   "activationPage": {
     "activate": "Активувати",
-    "alert":{
-      "passwordChanged": "Пароль успішно змінено",
-      "passwordChangeFailed": "Не вдалося змінити пароль"
+    "alert": {
+      "passwordChangeFailed": "Не вдалося змінити пароль",
+      "passwordChanged": "Пароль успішно змінено"
     },
     "confirmPassword": "Підтвердити пароль",
     "error": {
@@ -23,6 +23,9 @@
     "welcome": "Ласкаво просимо,"
   },
   "admin": {
+    "robot": {
+      "getToken": "Отримати токен"
+    },
     "user": {
       "accessLevel": {
         "description": "Від 1 до 999. 1 - найнижчий рівень доступу, 999 - найвищий"

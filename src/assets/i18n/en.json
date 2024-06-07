@@ -1,9 +1,9 @@
 {
   "activationPage": {
     "activate": "Activate",
-    "alert":{
-      "passwordChanged": "Password changed successfully",
-      "passwordChangeFailed": "Password change failed"
+    "alert": {
+      "passwordChangeFailed": "Password change failed",
+      "passwordChanged": "Password changed successfully"
     },
     "confirmPassword": "Confirm Password",
     "error": {
@@ -23,6 +23,9 @@
     "welcome": "Welcome,"
   },
   "admin": {
+    "robot": {
+      "getToken": "Get Token"
+    },
     "user": {
       "accessLevel": {
         "description": "From 1 to 999. 1 is the lowest access level, 999 is the highest"

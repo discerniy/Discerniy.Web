@@ -5,8 +5,11 @@
                 <h3 class="text-center">{{'editUser.actions.title' | translate}}</h3>
                 <hr />
                 <div>
-                    <button class="btn btn-danger" type="button" [disabled]="!currentUser.permissions.users.canDelete"
+                    <button class="btn btn-danger" type="button" [disabled]="!currentUser.permissions.robots.canDelete"
                         (click)="deleteRobot()">{{'buttons.delete' |
+                        translate}}</button>
+                        <button class="btn btn-primary" type="button" [disabled]="!currentUser.permissions.robots.canRead"
+                        (click)="onGetToken()">{{'admin.robot.getToken' |
                         translate}}</button>
                 </div>
             </div>

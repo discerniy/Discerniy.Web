@@ -154,6 +154,10 @@ export class RobotAdministrationComponent {
       this.router.navigate(['/home/admin/robots']);
     });
   }
+
+  public onGetToken(){
+    this.robotApi.getRobotToken(this.robotModel.id);
+  }
 }
 
 type DisplayMode = 'EDIT' | 'VIEW' | 'CREATE';

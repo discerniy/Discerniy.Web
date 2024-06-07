@@ -4,7 +4,7 @@ import { TokenResponse } from './auth-api.service';
 import { ClientStatus } from '../models/data/Client';
 import { PageResponse } from '../models/responses/page-response';
 import { ClientPermissions } from '../models/data/ClientPermission';
-import { RobotResponse } from '../models/responses/robot-response';
+import { RobotResponse, RobotTokenResponse } from '../models/responses/robot-response';
 import { Robot } from '../models/data/Robot';
 
 @Injectable({
@@ -21,6 +21,25 @@ export class RobotApiService extends BaseApi {
 
   getById(id: string): Promise<RobotResponse> {
     return this.toDataResponse(this.get<RobotResponse>(id));
+  }
+
+  async getRobotToken(id: string): Promise<void> {
+    let response = await this.get(`${id}/token`);
+    if (response.ok) {
+      let a = document.createElement('a');
+      a.style.display = 'none';
+      let blob = new Blob([JSON.stringify(response.body)], { type: 'application/json' });
+      a.href = URL.createObjectURL(blob);
+      a.download = `robot_${id}.json`;
+
+      document.body.appendChild(a);
+      a.click();
+
+      document.body.removeChild(a);
+      return Promise.resolve();
+    } else {
+      return Promise.reject(response);
+    }
   }
 
   create(user: Robot): Promise<RobotResponse> {
@@ -66,7 +85,7 @@ export class RobotApiService extends BaseApi {
 
   async getRobots(options: GetRobotsOptions) {
     let url = `?Page=${options.page}&Limit=${options.limit}&` +
-      `Status=${options.status ?? ''}&Nickname=${options.nickname ?? ''}&`+
+      `Status=${options.status ?? ''}&Nickname=${options.nickname ?? ''}&` +
       `AccessLevel=${options.accessLevel ?? ''}`;
     return this.toDataResponse(this.get<PageResponse<RobotResponse>>(url));
   }

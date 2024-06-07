@@ -49,6 +49,12 @@ export class RobotListAdministrationComponent implements OnInit {
       style: 'primary',
       type: 'button',
       event: this.onViewInfo.bind(this)
+    },
+    {
+      name: 'admin.robot.getToken',
+      style: 'primary',
+      type: 'button',
+      event: this.onGetToken.bind(this)
     }
   ];
 
@@ -82,6 +88,10 @@ export class RobotListAdministrationComponent implements OnInit {
 
   public onViewInfo(id: string) {
     this.router.navigate(['/home/admin/robots', id]);
+  }
+
+  public onGetToken(id: string) {
+    this.robotApi.getRobotToken(id);
   }
 
   public onSearch(filters: SearchFilter[]) {

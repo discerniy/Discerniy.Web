@@ -1,8 +1,7 @@
 import { ClientStatus, ClientType } from "../data/Client";
-import { ClientPermissions } from "../data/ClientPermission";
 import { GeoCoordinates } from "../data/GeoCoordinates";
 
-export class RobotCreatedResponse {
+export class RobotTokenResponse {
     id: string = '';
     key: string = '';
     token: string = '';
