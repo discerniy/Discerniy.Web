@@ -23,7 +23,7 @@ export class AuthApiService extends BaseApi {
         let response = await this.post<TokenResponse>('login', data);
         if (response.ok && response.body != null) {
             this.token = response.body.token;
-            this.tokenExpiresAt = new Date(response.body.expiresAt);
+            this.tokenExpiresAt = response.body.expiresAt;
         } else {
             localStorage.removeItem(this.authSecretKey);
         }
@@ -74,5 +74,6 @@ export interface RegisterRequest {
 
 export interface TokenResponse {
     token: string;
-    expiresAt: Date;
+    expiresAt: number;
+    createAt: number;
 }

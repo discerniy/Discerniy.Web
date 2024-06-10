@@ -9,6 +9,7 @@ export class UserResponse {
     nickname: string = '';
     email: string = '';
     taxPayerId: string = '';
+    updateLocationSecondsInterval: number = 0;
     createdAt: Date = new Date();
     type: ClientType = ClientType.User;
     permissions: ClientPermissions = new ClientPermissions();

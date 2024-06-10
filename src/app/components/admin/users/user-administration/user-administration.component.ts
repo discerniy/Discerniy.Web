@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/models/data/User';
 import { UserApiService } from 'src/app/services/user-api.service';
 import { UserResponse, UserResponseDetailed } from 'src/app/models/responses/user-response';
+import { AuthApiService } from 'src/app/services/auth-api.service';
 
 @Component({
   selector: 'app-user-administration',
@@ -37,10 +38,11 @@ export class UserAdministrationComponent {
     permissions: '',
     accessLevel: '',
     scanRadius: '',
+    locationInterval: '',
     status: ''
   };
 
-  constructor(protected translate: TranslateService, protected userApi: UserApiService, protected router: Router, protected activatedRoute: ActivatedRoute) {
+  constructor(protected translate: TranslateService, protected userApi: UserApiService, protected authApi: AuthApiService, protected router: Router, protected activatedRoute: ActivatedRoute) {
     if (this.activatedRoute.snapshot.data['mode'] == 'CREATE') {
       this.displayMode = 'CREATE';
       this.buttonLabel = 'buttons.create';
@@ -72,6 +74,7 @@ export class UserAdministrationComponent {
       this.oldUser.permissions = JSON.stringify(this.userModel.permissions);
       this.oldUser.accessLevel = JSON.stringify(this.userModel.accessLevel);
       this.oldUser.scanRadius = JSON.stringify(this.userModel.scanRadius);
+      this.oldUser.locationInterval = JSON.stringify(this.userModel.updateLocationSecondsInterval);
       this.oldUser.status = JSON.stringify(this.userModel.status);
     }).catch(() => {
       this.router.navigate(['/home/admin/users']);
@@ -105,7 +108,6 @@ export class UserAdministrationComponent {
 
   private updateUser() {
     const taskStack = new Array<Promise<UserResponseDetailed>>();
-    // Need fix API.
 
     if (this.currentUser.permissions.users.canUpdateBaseInformation && this.oldUser.baseInformation != JSON.stringify({
       firstName: this.userModel.firstName,
@@ -128,6 +130,10 @@ export class UserAdministrationComponent {
 
     if (this.currentUser.permissions.users.canUpdateScanRadius && this.oldUser.scanRadius != JSON.stringify(this.userModel.scanRadius)) {
       taskStack.push(this.userApi.updateScanRadius(this.userModel.id, this.userModel.scanRadius));
+    }
+
+    if (this.currentUser.permissions.users.canUpdateScanRadius && this.oldUser.locationInterval != JSON.stringify(this.userModel.updateLocationSecondsInterval)) {
+      taskStack.push(this.userApi.updateLocationInterval(this.userModel.id, this.userModel.updateLocationSecondsInterval));
     }
 
     if (this.currentUser.permissions.users.canUpdateStatus && this.oldUser.status != JSON.stringify(this.userModel.status)) {
@@ -164,6 +170,10 @@ export class UserAdministrationComponent {
     this.userApi.deleteUser(this.userModel.id).then(() => {
       this.router.navigate(['/home/admin/users']);
     });
+  }
+
+  public onGetToken(){
+    this.authApi.downloadDeviceConfig(this.userModel.id);
   }
 }
 

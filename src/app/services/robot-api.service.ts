@@ -76,7 +76,7 @@ export class RobotApiService extends BaseApi {
       }
       if (response.body != null) {
         this.token = response.body.token;
-        this.tokenExpiresAt = new Date(response.body.expiresAt);
+        this.tokenExpiresAt = response.body.expiresAt;
         resolve(response.body);
       }
     });

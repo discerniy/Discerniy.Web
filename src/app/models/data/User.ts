@@ -8,6 +8,7 @@ export class User extends Client {
     email: string = '';
     password: string = '';
     needPasswordChange: boolean = true;
+    updateLocationSecondsInterval: number = 0;
 
     static fromResponse(response: UserResponseDetailed | UserResponse): User {
         let user = new User();
@@ -21,6 +22,7 @@ export class User extends Client {
         user.type = response.type;
         user.permissions = response.permissions;
         user.status = response.status;
+        user.updateLocationSecondsInterval = response.updateLocationSecondsInterval;
         let detailedResponse = response as UserResponseDetailed;
         user.groups = detailedResponse.groups || [];
         user.lastOnline = detailedResponse.lastOnline || undefined;

@@ -15,6 +15,9 @@
                         (click)="deleteUser()"
                         >{{'buttons.delete' |
                         translate}}</button>
+                    <button class="btn btn-primary" type="button" [disabled]="!currentUser.permissions.users.canRead"
+                        (click)="onGetToken()">{{'userList.downloadDeviceConfig' |
+                        translate}}</button>
                 </div>
             </div>
             <h3 class="text-center">{{'editUser.basicInfo' | translate}}</h3>
@@ -50,6 +53,13 @@
                     [(ngModel)]="userModel.scanRadius"
                     [disabled]="isSelfUser || !currentUser.permissions.users.canUpdateScanRadius" />
                 <label class="form-label description">{{'admin.user.scanRadius.description' | translate}}</label>
+            </div>
+            <div>
+                <label class="form-label">{{'models.user.updateLocationSecondsInterval' | translate}}<i class="required"></i></label>
+                <input class="form-control" type="number" min="0" step="0.5" value="5" name="updateLocationSecondsInterval"
+                    [(ngModel)]="userModel.updateLocationSecondsInterval"
+                    [disabled]="isSelfUser || !currentUser.permissions.users.canUpdateScanRadius" />
+                <label class="form-label description">{{'admin.user.updateLocationSecondsInterval.description' | translate}}</label>
             </div>
             <div>
                 <label class="form-label">{{'models.client.accessLevel' | translate}}<i class="required"></i></label>

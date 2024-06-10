@@ -29,24 +29,24 @@ export class StorageService {
         }
     }
 
-    public get tokenExpiresAt(): Date | null {
+    public get tokenExpiresAt(): number | null {
         let value = this.getItem(this.tokenExpiresAtKey);
         if (value) {
-            return new Date(value);
+            return Number(value)
         }
         return null;
     }
 
-    protected set tokenExpiresAt(value: Date | null) {
+    protected set tokenExpiresAt(value: number | null) {
         if (value) {
-            this.setItem(this.tokenExpiresAtKey, value.toISOString());
+            this.setItem(this.tokenExpiresAtKey, value.toString());
         } else {
             this.removeItem(this.tokenExpiresAtKey);
         }
     }
     public get isAuthenticated(): boolean {
         if (this._isAuthenticated === null) {
-            this._isAuthenticated = this.token !== null && this.tokenExpiresAt !== null && this.tokenExpiresAt > new Date();
+            this._isAuthenticated = this.token !== null && this.tokenExpiresAt !== null && this.tokenExpiresAt > Math.floor((new Date()).getTime() / 1000)
         }
         return this._isAuthenticated;
     }

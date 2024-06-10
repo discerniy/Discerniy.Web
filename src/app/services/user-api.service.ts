@@ -81,6 +81,10 @@ export class UserApiService extends BaseApi {
     return this.toDataResponse(this.put<UserResponseDetailed>(`${id}/scanRadius`, scanRadius));
   }
 
+  async updateLocationInterval(id: string, locationInterval: number): Promise<UserResponseDetailed> {
+    return this.toDataResponse(this.put<UserResponseDetailed>(`${id}/updateLocationInterval`, locationInterval));
+  }
+
   async deleteUser(id: string): Promise<void> {
     return this.toDataResponse<any>(this.delete<void>(id));
   }
@@ -98,7 +102,7 @@ export class UserApiService extends BaseApi {
       }
       if (response.body != null) {
         this.token = response.body.token;
-        this.tokenExpiresAt = new Date(response.body.expiresAt);
+        this.tokenExpiresAt = response.body.expiresAt;
         resolve(response.body);
       }
     });
