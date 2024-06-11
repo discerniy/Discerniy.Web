@@ -32,6 +32,9 @@
       },
       "scanRadius": {
         "description": "Scan Radius in meters"
+      },
+      "updateLocationSecondsInterval": {
+        "description": "Set the time in seconds"
       }
     }
   },
@@ -135,6 +138,7 @@
       "groups": {
         "canCreate": "Can Create",
         "canDelete": "Can Delete",
+        "canManageMarks": "Can Manage Marks",
         "canRead": "Can Read",
         "canUpdate": "Can Update",
         "name": "Groups"
@@ -179,7 +183,8 @@
       "email": "Email",
       "firstName": "First Name",
       "lastName": "Last Name",
-      "taxPayerId": "Tax Payer ID"
+      "taxPayerId": "Tax Payer ID",
+      "updateLocationSecondsInterval": "Data update interval"
     }
   },
   "navigation": {
