@@ -25,7 +25,7 @@ export class GroupMemberListComponent {
   public columns: TableColumn[] = [
     { name: 'models.user.firstName', type: 'string' },
     { name: 'models.user.lastName', type: 'string' },
-    { name: 'models.user.nickname', type: 'string' },
+    { name: 'models.client.nickname', type: 'string' },
     { name: 'models.user.email', type: 'string' },
     { name: 'models.user.taxPayerId', type: 'string' },
     { name: 'models.client.lastOnline', type: 'date' },
@@ -51,7 +51,7 @@ export class GroupMemberListComponent {
   public filters: SearchFilter[] = [
     { column: 'models.user.firstName', type: 'string', value: '' },
     { column: 'models.user.lastName', type: 'string', value: '' },
-    { column: 'models.user.nickname', type: 'string', value: '' },
+    { column: 'models.client.nickname', type: 'string', value: '' },
     { column: 'models.user.email', type: 'string', value: '' },
     { column: 'models.user.taxPayerId', type: 'string', value: '' },
     { column: 'models.client.accessLevel', type: 'number', value: 0, defaultValue: 0 },
@@ -121,7 +121,7 @@ export class GroupMemberListComponent {
       limit: this.limit,
       firstName: this.filters.find(filter => filter.column == 'models.user.firstName')?.value as string,
       lastName: this.filters.find(filter => filter.column == 'models.user.lastName')?.value as string,
-      nickname: this.filters.find(filter => filter.column == 'models.user.nickname')?.value as string,
+      nickname: this.filters.find(filter => filter.column == 'models.client.nickname')?.value as string,
       email: this.filters.find(filter => filter.column == 'models.user.email')?.value as string,
       taxPayerId: this.filters.find(filter => filter.column == 'models.user.taxPayerId')?.value as string,
       accessLevel: this.filters.find(filter => filter.column == 'models.client.accessLevel')?.value as number,
